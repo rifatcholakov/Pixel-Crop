@@ -21,10 +21,10 @@ export async function getCroppedImg(
                 return;
             }
 
-            const truePixelX = (pixelCrop.x / 100) * image.naturalWidth;
-            const truePixelY = (pixelCrop.y / 100) * image.naturalHeight;
-            const truePixelWidth = (pixelCrop.width / 100) * image.naturalWidth;
-            const truePixelHeight = (pixelCrop.height / 100) * image.naturalHeight;
+            const truePixelX = Math.round((pixelCrop.x / 100) * image.naturalWidth);
+            const truePixelY = Math.round((pixelCrop.y / 100) * image.naturalHeight);
+            const truePixelWidth = Math.round((pixelCrop.width / 100) * image.naturalWidth);
+            const truePixelHeight = Math.round((pixelCrop.height / 100) * image.naturalHeight);
 
             canvas.width = truePixelWidth;
             canvas.height = truePixelHeight;

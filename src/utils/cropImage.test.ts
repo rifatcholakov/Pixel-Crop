@@ -28,7 +28,7 @@ describe('getCroppedImg', () => {
         });
 
         // Mock Image constructor because jsdom doesn't load image sources
-        global.Image = class {
+        window.Image = class {
             onload: any;
             constructor() {
                 setTimeout(() => { if (this.onload) this.onload(); }, 10);
@@ -38,7 +38,7 @@ describe('getCroppedImg', () => {
 
     it('exports the image in the requested format (e.g., image/webp)', async () => {
         // Dummy crop data
-        const crop = { unit: 'px' as const, x: 10, y: 10, width: 100, height: 100 };
+        const crop = { unit: '%' as const, x: 10, y: 10, width: 100, height: 100 };
 
         // Execute the function you are about to write
         const blob = await getCroppedImg('dummy-source.png', crop, 'image/webp');
@@ -53,7 +53,7 @@ describe('getCroppedImg', () => {
     });
 
     it('preserves the format for image/jpeg', async () => {
-        const crop = { unit: 'px' as const, x: 0, y: 0, width: 50, height: 50 };
+        const crop = { unit: '%' as const, x: 0, y: 0, width: 50, height: 50 };
         const blob = await getCroppedImg('dummy.jpg', crop, 'image/jpeg');
 
         expect(mockToBlob.mock.calls[0][1]).toBe('image/jpeg');
