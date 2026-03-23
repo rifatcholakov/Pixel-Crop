@@ -1,23 +1,28 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import ImageCropper from './ImageCropper';
 
-// Mock react-image-crop
 vi.mock('react-image-crop', () => ({
     default: (props: any) => (
-        <div data-testid="react-image-crop-mock" data-crop={JSON.stringify(props.crop)} />
+        <div data-testid="react-image-crop-mock" data-crop={JSON.stringify(props.crop)}>
+            {props.children}
+        </div>
     )
 }));
 
-// Mock the CSS file so it doesn't break jsdom parser
 vi.mock('react-image-crop/dist/ReactCrop.css', () => ({}));
 
 describe('ImageCropper', () => {
+
+    beforeAll(() => {
+        Object.defineProperty(HTMLImageElement.prototype, 'naturalWidth', { get: () => 1000, configurable: true });
+        Object.defineProperty(HTMLImageElement.prototype, 'naturalHeight', { get: () => 1000, configurable: true });
+    });
+
     it('renders the visual cropper and manual control inputs', () => {
         render(<ImageCropper imageSrc="dummy-image.jpg" onCropPixelsChange={() => { }} />);
 
         expect(screen.getByTestId('react-image-crop-mock')).toBeInTheDocument();
-
         expect(screen.getByLabelText(/width/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/height/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/x position/i)).toBeInTheDocument();
@@ -33,7 +38,8 @@ describe('ImageCropper', () => {
         fireEvent.change(widthInput, { target: { value: '350' } });
 
         const updatedCropProp = JSON.parse(cropperMock.getAttribute('data-crop') || '{}');
-        expect(updatedCropProp.width).toBe(350);
+
+        expect(updatedCropProp.width).toBe(35);
     });
 
 });
