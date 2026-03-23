@@ -1,121 +1,101 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from 'react';
+import ImageUploader from './components/ImageUploader';
+import ImageCropper from './components/ImageCropper';
+import { getCroppedImg } from './utils/cropImage';
+import { type Crop } from 'react-image-crop';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [file, setFile] = useState<File | null>(null);
+  const [previewSrc, setPreviewSrc] = useState<string | null>(null);
+  const [cropPixels, setCropPixels] = useState<Crop | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!file) {
+      setPreviewSrc(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewSrc(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
+
+  const handleDownload = async () => {
+    if (!file || !previewSrc || !cropPixels) return;
+
+    try {
+      const croppedBlob = await getCroppedImg(previewSrc, cropPixels, file.type);
+
+      if (!croppedBlob) {
+        setError("An error occurred generating the cropped image.");
+        return;
+      }
+
+      const url = URL.createObjectURL(croppedBlob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `cropped-${file.name}`;
+      a.click();
+
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to crop the image.");
+    }
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto', fontFamily: 'sans-serif' }}>
+      <h1>Image Cropper App</h1>
 
-      <div className="ticks"></div>
+      {error && <div style={{ color: 'red', fontWeight: 'bold' }}>{error}</div>}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <hr style={{ margin: '2rem 0' }} />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {!previewSrc ? (
+        <ImageUploader
+          onImageUpload={(uploadedFile) => {
+            setFile(uploadedFile);
+            setError(null);
+          }}
+          onError={(errMsg) => setError(errMsg)}
+        />
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <ImageCropper
+            imageSrc={previewSrc}
+            onCropPixelsChange={(pixels) => setCropPixels(pixels)}
+          />
+
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <button
+              onClick={handleDownload}
+              style={{
+                padding: '1rem 2rem',
+                backgroundColor: '#28a745',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontWeight: 'bold'
+              }}
+            >
+              Download Cropped Image
+            </button>
+
+            <button
+              onClick={() => setFile(null)}
+              style={{ padding: '1rem', cursor: 'pointer' }}
+            >
+              Start Over
+            </button>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
 }
-
-export default App
