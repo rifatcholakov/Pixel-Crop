@@ -1,8 +1,5 @@
-.layout {
+.sidebar {
     display: flex;
+    flex-direction: column;
     gap: 2rem;
-}
-
-.responsiveImage {
-    max-width: 100%;
 }

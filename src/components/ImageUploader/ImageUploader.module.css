@@ -1,0 +1,51 @@
+.dropZone {
+    width: 100%;
+    margin: 2rem auto;
+    border: 2px dashed #007bff;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.dropZone:hover {
+    background-color: #e9ecef;
+    border-color: #0056b3;
+}
+
+/* This is automatically applied when the user's mouse enters the box while holding a file! */
+.dragging {
+    background-color: #e3f2fd;
+    border-color: #007bff;
+    border-width: 3px;
+    transform: scale(1.02);
+}
+
+.hiddenInput {
+    display: none;
+}
+
+.uploadContent {
+    pointer-events: none;
+    /* Crucial: This stops the text inside the box from flickering the drag! */
+}
+
+.uploadIcon {
+    width: 48px;
+    height: 48px;
+    color: #007bff;
+    margin-bottom: 1rem;
+}
+
+.uploadContent h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.uploadContent p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
