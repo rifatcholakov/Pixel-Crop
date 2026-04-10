@@ -1,9 +1,5 @@
-import { SUPPORTED_MIME_TYPES } from "../utils/constants";
-
-type ImageUploaderProps = {
-    onImageUpload: (file: File) => void;
-    onError: (errorMsg: string) => void;
-};
+import { SUPPORTED_MIME_TYPES } from "@/utils/constants";
+import type { ImageUploaderProps } from "@/types";
 
 export default function ImageUploader({ onImageUpload, onError }: ImageUploaderProps) {
 

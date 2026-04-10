@@ -1,0 +1,8 @@
+.layout {
+    display: flex;
+    gap: 2rem;
+}
+
+.responsiveImage {
+    max-width: 100%;
+}

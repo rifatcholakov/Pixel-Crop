@@ -1,0 +1,45 @@
+.container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.divider {
+  margin: 2rem 0;
+}
+
+.cropperLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+}
+
+.primaryButton {
+  padding: 1rem 2rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.primaryButton:hover {
+  background-color: #218838;
+}
+
+.secondaryButton {
+  padding: 1rem;
+  cursor: pointer;
+}

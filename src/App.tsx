@@ -3,6 +3,8 @@ import ImageUploader from './components/ImageUploader';
 import ImageCropper from './components/ImageCropper';
 import { getCroppedImg } from './utils/cropImage';
 import { type Crop } from 'react-image-crop';
+import styles from './App.module.css';
+import Toast from './components/Toast';
 
 export default function App() {
   const [file, setFile] = useState<File | null>(null);
@@ -48,12 +50,18 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto', fontFamily: 'sans-serif' }}>
+    <div className={styles.container}>
       <h1>Image Cropper App</h1>
 
-      {error && <div style={{ color: 'red', fontWeight: 'bold' }}>{error}</div>}
+      {error && (
+        <Toast
+          message={error}
+          type="error"
+          onClose={() => setError(null)}
+        />
+      )}
 
-      <hr style={{ margin: '2rem 0' }} />
+      <hr className={styles.divider} />
 
       {!previewSrc ? (
         <ImageUploader
@@ -64,31 +72,23 @@ export default function App() {
           onError={(errMsg) => setError(errMsg)}
         />
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div className={styles.cropperLayout}>
           <ImageCropper
             imageSrc={previewSrc}
             onCropPixelsChange={(pixels) => setCropPixels(pixels)}
           />
 
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div className={styles.buttonGroup}>
             <button
               onClick={handleDownload}
-              style={{
-                padding: '1rem 2rem',
-                backgroundColor: '#28a745',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: 'bold'
-              }}
+              className={styles.primaryButton}
             >
               Download Cropped Image
             </button>
 
             <button
               onClick={() => setFile(null)}
-              style={{ padding: '1rem', cursor: 'pointer' }}
+              className={styles.secondaryButton}
             >
               Start Over
             </button>
