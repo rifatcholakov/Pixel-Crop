@@ -75,6 +75,7 @@ export default function App() {
         <div className={styles.cropperLayout}>
           <ImageCropper
             imageSrc={previewSrc}
+            file={file}
             onCropPixelsChange={(pixels) => setCropPixels(pixels)}
           />
 

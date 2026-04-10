@@ -1,18 +1,19 @@
-import { useRef, useEffect } from 'react'; // <-- Ensure useEffect is imported!
+import { useRef, useEffect } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import styles from './ImageCropper.module.css';
 
 import useCropMath from '@/hooks/useCropMath';
-import { canvasPreview } from '@/utils/canvasPreview'; // <-- Import the engine!
+import { canvasPreview } from '@/utils/canvasPreview';
 import AspectControls from '../AspectControls';
 import TruePixelControls from '../TruePixelControls';
 import type { ImageCropperProps } from '@/types';
 import LivePreview from '../LivePreview';
+import MetadataPanel from '../MetadataPanel';
 
-export default function ImageCropper({ imageSrc, onCropPixelsChange }: ImageCropperProps) {
+export default function ImageCropper({ imageSrc, file, onCropPixelsChange }: ImageCropperProps) {
     const imgRef = useRef<HTMLImageElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null); // <-- 1. Create the canvas Reference
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const {
         crop, setCrop, aspect, setAspect,
@@ -20,7 +21,6 @@ export default function ImageCropper({ imageSrc, onCropPixelsChange }: ImageCrop
         handleWidthChange, handleHeightChange, handleXChange, handleYChange
     } = useCropMath(imgRef);
 
-    // 2. NEW MAGIC HOOK! Any time 'crop' math updates, redraw the canvas instantly!
     useEffect(() => {
         if (crop.width > 0 && crop.height > 0 && imgRef.current && canvasRef.current) {
             canvasPreview(imgRef.current, canvasRef.current, crop);
@@ -43,6 +43,7 @@ export default function ImageCropper({ imageSrc, onCropPixelsChange }: ImageCrop
             </div>
 
             <div className={styles.sidebar}>
+                <MetadataPanel file={file} imgRef={imgRef} />
                 <TruePixelControls
                     aspect={aspect} getTrueWidth={getTrueWidth} getTrueHeight={getTrueHeight}
                     getTrueX={getTrueX} getTrueY={getTrueY} handleWidthChange={handleWidthChange}

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import LivePreview from './LivePreview';
 
 // Mock the canvas engine because our testing environment has no Graphics Card!
@@ -10,6 +10,10 @@ vi.mock('@/utils/canvasPreview', () => ({
 import { canvasPreview } from '@/utils/canvasPreview';
 
 describe('LivePreview', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
     it('renders the canvas element', () => {
         // Create a fake DOM Image reference
         const dummyRef = { current: document.createElement('img') };
