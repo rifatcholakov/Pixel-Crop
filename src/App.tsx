@@ -51,7 +51,7 @@ export default function App() {
 
   return (
     <div className={styles.container}>
-      <h1>Image Cropper App</h1>
+      <h1>PixelCrop</h1>
 
       {error && (
         <Toast
