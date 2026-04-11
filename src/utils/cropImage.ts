@@ -1,5 +1,12 @@
 import { type Crop } from 'react-image-crop';
 
+export function generateDownloadName(originalName: string, width: number, height: number): string {
+    const nameParts = originalName.split('.');
+    const ext = nameParts.length > 1 ? `.${nameParts.pop()}` : '';
+    const baseName = nameParts.join('.');
+    return `cropped-${baseName}-${width}x${height}${ext}`;
+}
+
 // 1. Separate the "Loading" logic into a clean, reusable helper
 const createImage = (url: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {
@@ -14,7 +21,7 @@ export async function getCroppedImg(
     imageSrc: string,
     percentCrop: Crop,
     format: string = 'image/jpeg'
-): Promise<Blob | null> {
+): Promise<{ blob: Blob, width: number, height: number } | null> {
 
     const image = await createImage(imageSrc);
 
@@ -33,6 +40,9 @@ export async function getCroppedImg(
     ctx.drawImage(image, x, y, w, h, 0, 0, w, h);
 
     return new Promise((resolve) => {
-        canvas.toBlob((blob) => resolve(blob), format);
+        canvas.toBlob((blob) => {
+            if (blob) resolve({ blob, width: w, height: h });
+            else resolve(null);
+        }, format);
     });
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getCroppedImg } from './cropImage';
+import { getCroppedImg, generateDownloadName } from './cropImage';
 
 describe('getCroppedImg', () => {
     let mockDrawImage: any;
@@ -41,7 +41,7 @@ describe('getCroppedImg', () => {
         const crop = { unit: '%' as const, x: 10, y: 10, width: 100, height: 100 };
 
         // Execute the function you are about to write
-        const blob = await getCroppedImg('dummy-source.png', crop, 'image/webp');
+        const result = await getCroppedImg('dummy-source.png', crop, 'image/webp');
 
         // Check if you drew it to the canvas
         expect(mockDrawImage).toHaveBeenCalledTimes(1);
@@ -49,14 +49,31 @@ describe('getCroppedImg', () => {
 
         // MOST IMPORTANT BUSINESS LOGIC: Did you pass the right format?
         expect(mockToBlob.mock.calls[0][1]).toBe('image/webp');
-        expect(blob?.type).toBe('image/webp');
+        expect(result?.blob?.type).toBe('image/webp');
     });
 
     it('preserves the format for image/jpeg', async () => {
         const crop = { unit: '%' as const, x: 0, y: 0, width: 50, height: 50 };
-        const blob = await getCroppedImg('dummy.jpg', crop, 'image/jpeg');
+        const result = await getCroppedImg('dummy.jpg', crop, 'image/jpeg');
 
         expect(mockToBlob.mock.calls[0][1]).toBe('image/jpeg');
-        expect(blob?.type).toBe('image/jpeg');
+        expect(result?.blob?.type).toBe('image/jpeg');
+    });
+});
+
+describe('generateDownloadName', () => {
+    it('appends dimensions and keeps the extension', () => {
+        const name = generateDownloadName('vacation.png', 800, 600);
+        expect(name).toBe('cropped-vacation-800x600.png');
+    });
+
+    it('handles filenames with multiple dots', () => {
+        const name = generateDownloadName('my.favorite.picture.jpg', 1920, 1080);
+        expect(name).toBe('cropped-my.favorite.picture-1920x1080.jpg');
+    });
+
+    it('handles files with no extension gracefully', () => {
+        const name = generateDownloadName('unknown_file', 500, 500);
+        expect(name).toBe('cropped-unknown_file-500x500');
     });
 });
