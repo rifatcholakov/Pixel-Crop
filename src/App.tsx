@@ -56,53 +56,44 @@ export default function App() {
   return (
     <div className={styles.appWrapper}>
       <header className={styles.header}>
-          <h1>PixelCrop</h1>
+        <h1>PixelCrop</h1>
+
+        <div className={styles.headerActions}>
+          {previewSrc && (
+            <>
+              <button onClick={handleDownload} className={styles.primaryButton}>
+                ↓ Download
+              </button>
+              <button onClick={() => setFile(null)} className={styles.secondaryButton}>
+                ✕ Start Over
+              </button>
+            </>
+          )}
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+        </div>
       </header>
 
-      <main className={styles.mainCard}>
-        {error && (
-          <Toast
-          message={error}
-          type="error"
-          onClose={() => setError(null)}
-        />
+      {error && (
+        <Toast message={error} type="error" onClose={() => setError(null)} />
       )}
 
-      <hr className={styles.divider} />
+      <main className={styles.mainCard}>
+        <hr className={styles.divider} />
 
-      {!previewSrc ? (
-        <ImageUploader
-          onImageUpload={(uploadedFile) => {
-            setFile(uploadedFile);
-            setError(null);
-          }}
-          onError={(errMsg) => setError(errMsg)}
-        />
-      ) : (
-        <div className={styles.cropperLayout}>
+        {!previewSrc ? (
+          <ImageUploader
+            onImageUpload={(uploadedFile) => {
+              setFile(uploadedFile);
+              setError(null);
+            }}
+            onError={(errMsg) => setError(errMsg)}
+          />
+        ) : (
           <ImageCropper
             imageSrc={previewSrc}
             file={file}
             onCropPixelsChange={(pixels) => setCropPixels(pixels)}
           />
-
-          <div className={styles.buttonGroup}>
-            <button
-              onClick={handleDownload}
-              className={styles.primaryButton}
-            >
-              Download Cropped Image
-            </button>
-
-            <button
-              onClick={() => setFile(null)}
-              className={styles.secondaryButton}
-            >
-              Start Over
-            </button>
-          </div>
-          </div>
         )}
       </main>
     </div>

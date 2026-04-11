@@ -3,7 +3,7 @@
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(12px);
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 0.75rem;
     box-shadow: var(--glass-shadow);
     transition: transform 0.3s ease;
     display: flex;
@@ -30,7 +30,7 @@
     width: 100%;
     flex: 1;
     min-height: 0;
-    max-height: 75vh;
+    max-height: 90vh;
     object-fit: contain;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);

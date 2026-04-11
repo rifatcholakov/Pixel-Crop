@@ -19,7 +19,7 @@ describe('App Integration', () => {
         expect(fileInput).toBeInTheDocument();
 
         // The Download button should NOT exist yet
-        expect(screen.queryByText(/download cropped image/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/download/i)).not.toBeInTheDocument();
 
         // 2. Simulate User Uploading an image via the hidden input
         const file = new File(['dummy content'], 'test.png', { type: 'image/png' });
@@ -27,7 +27,7 @@ describe('App Integration', () => {
 
         // 3. The App should now render the Cropper screen!
         expect(window.URL.createObjectURL).toHaveBeenCalledWith(file);
-        expect(screen.getByText(/download cropped image/i)).toBeInTheDocument();
+        expect(screen.getByText(/download/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/width/i)).toBeInTheDocument(); // The cropper's manual inputs
 
         // The Dropzone text should be gone!
