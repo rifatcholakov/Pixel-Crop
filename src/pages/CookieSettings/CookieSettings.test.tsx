@@ -16,6 +16,19 @@ describe('CookieSettings', () => {
     expect(screen.getByText('Analytics Cookies')).toBeDefined();
   });
 
+  it('loads initial state from localStorage', () => {
+    const existing = { necessary: true, functional: true, analytics: false };
+    localStorage.setItem('cookie-consent', JSON.stringify(existing));
+    
+    render(<CookieSettings />);
+    
+    const functionalToggle = screen.getByLabelText('Toggle Functional Cookies');
+    const analyticsToggle = screen.getByLabelText('Toggle Analytics Cookies');
+    
+    expect(functionalToggle.className).toContain('active');
+    expect(analyticsToggle.className).not.toContain('active');
+  });
+
   it('toggles functional and analytics cookies', () => {
     render(<CookieSettings />);
     
