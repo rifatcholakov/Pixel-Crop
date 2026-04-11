@@ -56,4 +56,12 @@ describe('MetadataPanel', () => {
         expect(screen.queryByText(/Native Res:/i)).not.toBeInTheDocument();
     });
 
+    it('returns null safely when file is null', () => {
+        const dummyImgRef = { current: null };
+        const { container } = render(<MetadataPanel file={null} imgRef={dummyImgRef} />);
+
+        // The component should render nothing (return null)
+        expect(container.firstChild).toBeNull();
+    });
+
 });
