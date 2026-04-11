@@ -57,18 +57,7 @@ export default function App() {
     <div className={styles.appWrapper}>
       <header className={styles.header}>
         <h1>PixelCrop</h1>
-
         <div className={styles.headerActions}>
-          {previewSrc && (
-            <>
-              <button onClick={handleDownload} className={styles.primaryButton}>
-                ↓ Download
-              </button>
-              <button onClick={() => setFile(null)} className={styles.secondaryButton}>
-                ✕ Start Over
-              </button>
-            </>
-          )}
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         </div>
       </header>
@@ -89,11 +78,23 @@ export default function App() {
             onError={(errMsg) => setError(errMsg)}
           />
         ) : (
-          <ImageCropper
-            imageSrc={previewSrc}
-            file={file}
-            onCropPixelsChange={(pixels) => setCropPixels(pixels)}
-          />
+          <>
+            <ImageCropper
+              imageSrc={previewSrc}
+              file={file}
+              onCropPixelsChange={(pixels) => setCropPixels(pixels)}
+            />
+
+            {/* Action Panel — app-level concern, sibling to ImageCropper */}
+            <div className={styles.actionPanel}>
+              <button onClick={handleDownload} className={styles.downloadButton}>
+                ↓ Download Cropped Image
+              </button>
+              <button onClick={() => setFile(null)} className={styles.resetButton}>
+                ✕ Start Over
+              </button>
+            </div>
+          </>
         )}
       </main>
     </div>

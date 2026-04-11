@@ -11,7 +11,9 @@ import type { ImageCropperProps } from '@/types';
 import LivePreview from '../LivePreview';
 import MetadataPanel from '../MetadataPanel';
 
-export default function ImageCropper({ imageSrc, file, onCropPixelsChange }: ImageCropperProps) {
+export default function ImageCropper({
+    imageSrc, file, onCropPixelsChange
+}: ImageCropperProps) {
     const imgRef = useRef<HTMLImageElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -43,9 +45,9 @@ export default function ImageCropper({ imageSrc, file, onCropPixelsChange }: Ima
                         <img ref={imgRef} src={imageSrc} alt="Crop preview" className={styles.responsiveImage} onLoad={() => setCrop({ ...crop })} />
                     </ReactCrop>
                 </div>
-                
+
                 <div className={styles.previewCol}>
-                     <LivePreview imgRef={imgRef} crop={crop} />
+                    <LivePreview imgRef={imgRef} crop={crop} />
                 </div>
             </div>
 
