@@ -28,31 +28,36 @@ export default function ImageCropper({ imageSrc, file, onCropPixelsChange }: Ima
     }, [crop]);
 
     return (
-        <div className={styles.layout}>
-            <div>
-                <AspectControls setAspect={setAspect} setCrop={setCrop} />
+        <div className={styles.mainLayout}>
+            {/* Split Stage: Editor vs Preview */}
+            <div className={styles.stageArea}>
+                <div className={styles.editorCol}>
+                    <AspectControls setAspect={setAspect} setCrop={setCrop} aspect={aspect} />
 
-                <ReactCrop
-                    crop={crop}
-                    aspect={aspect}
-                    onChange={(_, percentCrop) => setCrop(percentCrop)}
-                    onComplete={(_, percentCrop) => onCropPixelsChange(percentCrop)}
-                >
-                    <img ref={imgRef} src={imageSrc} alt="Crop preview" className={styles.responsiveImage} onLoad={() => setCrop({ ...crop })} />
-                </ReactCrop>
+                    <ReactCrop
+                        crop={crop}
+                        aspect={aspect}
+                        onChange={(_, percentCrop) => setCrop(percentCrop)}
+                        onComplete={(_, percentCrop) => onCropPixelsChange(percentCrop)}
+                    >
+                        <img ref={imgRef} src={imageSrc} alt="Crop preview" className={styles.responsiveImage} onLoad={() => setCrop({ ...crop })} />
+                    </ReactCrop>
+                </div>
+                
+                <div className={styles.previewCol}>
+                     <LivePreview imgRef={imgRef} crop={crop} />
+                </div>
             </div>
 
-            <div className={styles.sidebar}>
-                <MetadataPanel file={file} imgRef={imgRef} />
+            {/* Bottom Controls Dashboard */}
+            <div className={styles.dashboardArea}>
                 <TruePixelControls
                     aspect={aspect} getTrueWidth={getTrueWidth} getTrueHeight={getTrueHeight}
                     getTrueX={getTrueX} getTrueY={getTrueY} handleWidthChange={handleWidthChange}
                     handleHeightChange={handleHeightChange} handleXChange={handleXChange} handleYChange={handleYChange}
                 />
-
-                <LivePreview imgRef={imgRef} crop={crop} />
+                <MetadataPanel file={file} imgRef={imgRef} />
             </div>
-
         </div>
     );
 }

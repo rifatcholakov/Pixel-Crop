@@ -5,12 +5,15 @@ import { getCroppedImg, generateDownloadName } from './utils/cropImage';
 import { type Crop } from 'react-image-crop';
 import styles from './App.module.css';
 import Toast from './components/Toast';
+import { useTheme } from './hooks/useTheme';
+import ThemeToggle from './components/ThemeToggle/ThemeToggle';
 
 export default function App() {
   const [file, setFile] = useState<File | null>(null);
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const [cropPixels, setCropPixels] = useState<Crop | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     if (!file) {
@@ -51,11 +54,15 @@ export default function App() {
   };
 
   return (
-    <div className={styles.container}>
-      <h1>PixelCrop</h1>
+    <div className={styles.appWrapper}>
+      <header className={styles.header}>
+          <h1>PixelCrop</h1>
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+      </header>
 
-      {error && (
-        <Toast
+      <main className={styles.mainCard}>
+        {error && (
+          <Toast
           message={error}
           type="error"
           onClose={() => setError(null)}
@@ -95,9 +102,9 @@ export default function App() {
               Start Over
             </button>
           </div>
-        </div>
-      )}
-
+          </div>
+        )}
+      </main>
     </div>
   );
 }

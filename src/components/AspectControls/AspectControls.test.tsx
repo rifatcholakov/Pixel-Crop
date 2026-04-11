@@ -4,7 +4,7 @@ import AspectControls from './AspectControls';
 
 describe('AspectControls', () => {
     it('renders all the aspect ratio buttons', () => {
-        render(<AspectControls setAspect={() => { }} setCrop={() => { }} />);
+        render(<AspectControls setAspect={() => { }} setCrop={() => { }} aspect={undefined} />);
         expect(screen.getByText('Square 1:1')).toBeInTheDocument();
         expect(screen.getByText('16:9 Landscape')).toBeInTheDocument();
         expect(screen.getByText('Freeform')).toBeInTheDocument();
@@ -13,7 +13,7 @@ describe('AspectControls', () => {
 
     it('calls setAspect with the correct ratio when clicked', () => {
         const mockSetAspect = vi.fn();
-        render(<AspectControls setAspect={mockSetAspect} setCrop={() => { }} />);
+        render(<AspectControls setAspect={mockSetAspect} setCrop={() => { }} aspect={undefined} />);
 
         fireEvent.click(screen.getByText('Square 1:1'));
         expect(mockSetAspect).toHaveBeenCalledWith(1);
@@ -25,7 +25,7 @@ describe('AspectControls', () => {
     it('resets both aspect and crop when Reset is clicked', () => {
         const mockSetAspect = vi.fn();
         const mockSetCrop = vi.fn();
-        render(<AspectControls setAspect={mockSetAspect} setCrop={mockSetCrop} />);
+        render(<AspectControls setAspect={mockSetAspect} setCrop={mockSetCrop} aspect={undefined} />);
 
         fireEvent.click(screen.getByText('Reset Crop'));
         expect(mockSetAspect).toHaveBeenCalledWith(undefined);

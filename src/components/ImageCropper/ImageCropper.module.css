@@ -1,5 +1,61 @@
-.sidebar {
+.mainLayout {
     display: flex;
     flex-direction: column;
+    gap: 2.5rem;
+    width: 100%;
+}
+
+.stageArea {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
     gap: 2rem;
+    align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+    .stageArea {
+        grid-template-columns: 1fr;
+    }
+}
+
+.editorCol {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.previewCol {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+@media (min-width: 1025px) {
+    .previewCol {
+        position: relative;
+    }
+}
+
+.dashboardArea {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(12px);
+}
+
+.dashboardArea > * {
+    flex: 1 1 300px;
+}
+
+.responsiveImage {
+    max-width: 100%;
+    max-height: 75vh;
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
 }

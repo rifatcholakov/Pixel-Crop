@@ -1,0 +1,69 @@
+.toggleBtn {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    box-shadow: var(--glass-shadow);
+    width: 60px;
+    height: 32px;
+    border-radius: 99px;
+    cursor: pointer;
+    position: relative;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.toggleBtn:hover {
+    background: var(--surface-hover);
+    transform: scale(1.05);
+}
+
+.iconContainer {
+    width: 26px;
+    height: 26px;
+    background-color: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 2px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+/* When dark is active shift the orb to the right! */
+.shifted {
+    transform: translateX(28px);
+}
+
+.sun, .moon {
+    position: absolute;
+    transition: all 0.4s ease;
+    width: 14px;
+    height: 14px;
+}
+
+/* In light mode, sun is visible, moon is shifted down */
+.sun {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.moon {
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
+/* In dark mode, sun shifts down, moon enters */
+.shifted .sun {
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+.shifted .moon {
+    transform: translateY(0);
+    opacity: 1;
+}

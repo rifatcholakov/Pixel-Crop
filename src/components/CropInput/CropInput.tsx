@@ -12,7 +12,7 @@ export default function CropInput({ label, value, disabled = false, onChange }: 
 
     return (
         <div className={styles.inputGroup}>
-            <label htmlFor={inputId}>{label}: </label>
+            <label htmlFor={inputId}>{label}</label>
             <input
                 type="number"
                 id={inputId}
@@ -24,4 +24,3 @@ export default function CropInput({ label, value, disabled = false, onChange }: 
         </div>
     )
 }
-

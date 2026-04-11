@@ -18,7 +18,7 @@ export default function LivePreview({ imgRef, crop }: LivePreviewProps) {
     }, [crop, imgRef]);
 
     return (
-        <div>
+        <div className={styles.container}>
             <h3>Live Preview</h3>
             <canvas ref={canvasRef} className={styles.previewCanvas} />
         </div>
