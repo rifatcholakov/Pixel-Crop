@@ -1,102 +1,41 @@
-import { useState, useEffect } from 'react';
-import ImageUploader from './components/ImageUploader';
-import ImageCropper from './components/ImageCropper';
-import { getCroppedImg, generateDownloadName } from './utils/cropImage';
-import { type Crop } from 'react-image-crop';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import styles from './App.module.css';
-import Toast from './components/Toast';
 import { useTheme } from './hooks/useTheme';
 import ThemeToggle from './components/ThemeToggle/ThemeToggle';
+import Footer from './components/Footer/Footer';
+import CookieBanner from './components/CookieBanner/CookieBanner';
+
+// Pages
+import Home from './pages/Home/Home';
+import Privacy from './pages/Privacy/Privacy';
+import Terms from './pages/Terms/Terms';
+import CookieSettings from './pages/CookieSettings/CookieSettings';
 
 export default function App() {
-  const [file, setFile] = useState<File | null>(null);
-  const [previewSrc, setPreviewSrc] = useState<string | null>(null);
-  const [cropPixels, setCropPixels] = useState<Crop | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    if (!file) {
-      setPreviewSrc(null);
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(file);
-    setPreviewSrc(objectUrl);
-
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [file]);
-
-  const handleDownload = async () => {
-    if (!file || !previewSrc || !cropPixels) return;
-
-    try {
-      const cropResult = await getCroppedImg(previewSrc, cropPixels, file.type);
-
-      if (!cropResult || !cropResult.blob) {
-        setError("An error occurred generating the cropped image.");
-        return;
-      }
-
-      const { blob: croppedBlob, width, height } = cropResult;
-      const url = URL.createObjectURL(croppedBlob);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = generateDownloadName(file.name, width, height);
-      a.click();
-
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to crop the image.");
-    }
-  };
-
   return (
-    <div className={styles.appWrapper}>
-      <header className={styles.header}>
-        <h1>PixelCrop</h1>
-        <div className={styles.headerActions}>
-          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-        </div>
-      </header>
+    <BrowserRouter>
+      <div className={styles.appWrapper}>
+        <header className={styles.header}>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <h1>PixelCrop</h1>
+          </Link>
+          <div className={styles.headerActions}>
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+          </div>
+        </header>
 
-      {error && (
-        <Toast message={error} type="error" onClose={() => setError(null)} />
-      )}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/cookie-settings" element={<CookieSettings />} />
+        </Routes>
 
-      <main className={styles.mainCard}>
-        <hr className={styles.divider} />
-
-        {!previewSrc ? (
-          <ImageUploader
-            onImageUpload={(uploadedFile) => {
-              setFile(uploadedFile);
-              setError(null);
-            }}
-            onError={(errMsg) => setError(errMsg)}
-          />
-        ) : (
-          <>
-            <ImageCropper
-              imageSrc={previewSrc}
-              file={file}
-              onCropPixelsChange={(pixels) => setCropPixels(pixels)}
-            />
-
-            {/* Action Panel — app-level concern, sibling to ImageCropper */}
-            <div className={styles.actionPanel}>
-              <button onClick={handleDownload} className={styles.downloadButton}>
-                ↓ Download Cropped Image
-              </button>
-              <button onClick={() => setFile(null)} className={styles.resetButton}>
-                ✕ Start Over
-              </button>
-            </div>
-          </>
-        )}
-      </main>
-    </div>
+        <Footer />
+        <CookieBanner />
+      </div>
+    </BrowserRouter>
   );
 }
