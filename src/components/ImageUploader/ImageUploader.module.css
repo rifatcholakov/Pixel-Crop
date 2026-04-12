@@ -1,18 +1,31 @@
+.uploadContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    min-height: calc(100vh - 200px); /* Fill most of the screen below header */
+    padding: 2rem; /* Guarantee spacing from screen edges */
+    width: 100%;
+}
+
 .dropZone {
     width: 100%;
-    margin: 2rem auto;
-    border: 2px dashed var(--accent);
-    border-radius: 24px;
-    padding: 6rem 2rem;
+    max-width: 800px; /* Constrain width so it doesn't stretch infinitely on wide screens */
+    margin: 0 auto;
+    border: 3px dashed var(--glass-border);
+    border-radius: 32px; /* Smoother, more welcoming curve */
+    padding: 5rem 3rem;
     text-align: center;
-    background: var(--surface);
+    background: linear-gradient(135deg, rgba(var(--bg-color), 0.3) 0%, rgba(255,255,255,0.05) 100%);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: inset 0 0 0 transparent;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
 }
 
 .dropZone:hover {
@@ -24,10 +37,9 @@
 
 .dragging {
     background: var(--surface-hover);
-    border-color: var(--accent-hover);
-    border-width: 3px;
+    border-color: var(--accent);
     transform: scale(1.02);
-    box-shadow: inset 0 0 40px var(--accent-glow), 0 10px 40px var(--accent-glow);
+    box-shadow: inset 0 0 40px var(--accent-glow), 0 15px 50px var(--accent-glow);
 }
 
 .hiddenInput {
@@ -42,38 +54,85 @@
     animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
+.iconWrapper {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 20px var(--accent-glow);
+    animation: floating 4s infinite ease-in-out;
+}
+
 .uploadIcon {
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
     color: var(--accent);
-    margin-bottom: 1.5rem;
     transition: transform 0.4s ease;
 }
 
 .dropZone:hover .uploadIcon {
-    transform: translateY(-8px) scale(1.1);
-    filter: drop-shadow(0 4px 10px var(--accent-glow));
+    transform: scale(1.1);
 }
 
 .dragging .uploadIcon {
     animation: pulse 1s infinite alternate;
 }
 
-.uploadContent h3 {
+.welcomeTitle {
     margin: 0 0 0.5rem 0;
-    color: var(--text-main);
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 2.2rem;
+    background: linear-gradient(135deg, var(--text-main), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
-.uploadContent p {
-    margin: 0;
+.actionTitle {
+    margin: 0 0 1rem 0;
     color: var(--text-muted);
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.subtext {
+    margin: 0 0 2.5rem 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+.browseButton {
+    padding: 0.8rem 2.5rem;
+    background: var(--surface);
+    color: var(--text-main);
+    border: 1px solid var(--glass-border);
+    border-radius: 99px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    pointer-events: none; /* Clicking the wrapper triggers the input anyway */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.dropZone:hover .browseButton {
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 8px 25px var(--accent-glow);
+    transform: translateY(-2px);
 }
 
 /* Animations */
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
 @keyframes popIn {
     0% { opacity: 0; transform: scale(0.9) translateY(20px); }
     100% { opacity: 1; transform: scale(1) translateY(0); }

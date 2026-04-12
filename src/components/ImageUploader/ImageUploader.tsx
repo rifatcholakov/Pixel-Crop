@@ -44,27 +44,34 @@ export default function ImageUploader({ onImageUpload, onError }: ImageUploaderP
     };
 
     return (
-        <div
-            className={`${styles.dropZone} ${isDragging ? styles.dragging : ''}`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()} // If clicked, open native file picker!
-        >
-            <input
-                type="file"
-                ref={fileInputRef}
-                className={styles.hiddenInput}
-                accept="image/*"
-                onChange={handleInputChange}
-            />
+        <div className={styles.uploadContainer}>
+            <div
+                className={`${styles.dropZone} ${isDragging ? styles.dragging : ''}`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={() => fileInputRef.current?.click()}
+            >
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    className={styles.hiddenInput}
+                    accept="image/*"
+                    onChange={handleInputChange}
+                />
 
-            <div className={styles.uploadContent}>
-                <svg className={styles.uploadIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                </svg>
-                <h3>{isDragging ? "Drop your image here!" : "Click or Drag & Drop an Image"}</h3>
-                <p>Supports JPEG, PNG, WEBP, and more</p>
+                <div className={styles.uploadContent}>
+                    <div className={styles.iconWrapper}>
+                        <svg className={styles.uploadIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                    </div>
+                    <h2 className={styles.welcomeTitle}>Welcome to PixelCrop ✨</h2>
+                    <h3 className={styles.actionTitle}>{isDragging ? "Drop your masterpiece here!" : "Drag & Drop an image to begin"}</h3>
+                    <p className={styles.subtext}>Supports high-res JPEG, PNG, WEBP, and AVIF formats.</p>
+                    
+                    <button className={styles.browseButton}>Browse Files</button>
+                </div>
             </div>
         </div>
     );
