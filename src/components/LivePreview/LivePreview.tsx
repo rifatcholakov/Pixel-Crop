@@ -15,7 +15,7 @@ export default function LivePreview({ imgRef, crop }: LivePreviewProps) {
         if (crop.width > 0 && crop.height > 0 && imgRef.current && canvasRef.current) {
             canvasPreview(imgRef.current, canvasRef.current, crop);
         }
-    }, [crop, imgRef]);
+    }, [crop]);
 
     return (
         <div className={styles.previewWrapper} data-testid="live-preview-wrapper">

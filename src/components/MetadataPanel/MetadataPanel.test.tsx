@@ -31,11 +31,16 @@ describe('MetadataPanel', () => {
         expect(screen.getByText('1920 × 1080')).toBeInTheDocument();
     });
 
-    it('returns null safely when file is null', () => {
+    it('hides the Original resolution stat when the image has not loaded yet', () => {
+        const dummyFile = new File([''], 'photo.jpg', { type: 'image/jpeg' });
+        // imgRef.current is null (image not mounted yet)
         const dummyImgRef = { current: null };
-        const { container } = render(<MetadataPanel file={null} imgRef={dummyImgRef} />);
 
-        expect(container.firstChild).toBeNull();
+        render(<MetadataPanel file={dummyFile} imgRef={dummyImgRef} />);
+
+        // Should render the panel but omit the resolution row
+        expect(screen.getByText('photo.jpg')).toBeInTheDocument();
+        expect(screen.queryByText(/×/)).not.toBeInTheDocument();
     });
 
 });

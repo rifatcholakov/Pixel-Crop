@@ -18,15 +18,10 @@ export default function ImageCropper({
     const [cropPixels, setLocalCropPixels] = useState<Crop | null>(null);
     const [showPreview, setShowPreview] = useState(true);
 
-    const {
-        crop, setCrop, aspect, setAspect,
-        getTrueWidth, getTrueHeight, getTrueX, getTrueY,
-        handleWidthChange, handleHeightChange, handleXChange, handleYChange
-    } = useCropMath(imgRef);
+    const cropMath = useCropMath(imgRef);
+    const { crop, setCrop, aspect, setAspect } = cropMath;
 
     const { downloadCrop, isDownloading } = useImageDownload({ imageSrc, file, onError });
-
-    const handleDownload = () => downloadCrop(cropPixels);
 
     return (
         <div className={styles.studioLayout}>
@@ -81,17 +76,7 @@ export default function ImageCropper({
             {/* 3. BOTTOM DASHBOARD: Controls + Info + Actions */}
             <div className={styles.dashboard}>
                 <div className={styles.dashboardContent}>
-                    <TruePixelControls
-                        aspect={aspect}
-                        getTrueWidth={getTrueWidth}
-                        getTrueHeight={getTrueHeight}
-                        getTrueX={getTrueX}
-                        getTrueY={getTrueY}
-                        handleWidthChange={handleWidthChange}
-                        handleHeightChange={handleHeightChange}
-                        handleXChange={handleXChange}
-                        handleYChange={handleYChange}
-                    />
+                    <TruePixelControls cropMath={cropMath} />
                     
                     <MetadataPanel file={file} imgRef={imgRef} />
 
@@ -99,7 +84,7 @@ export default function ImageCropper({
                         <button onClick={onReset} className={styles.resetBtn}>
                             Reset
                         </button>
-                        <button onClick={handleDownload} className={styles.downloadBtn} disabled={isDownloading}>
+                        <button onClick={() => downloadCrop(cropPixels)} className={styles.downloadBtn} disabled={isDownloading}>
                             {isDownloading ? 'Processing...' : 'Download Result'}
                         </button>
                     </div>

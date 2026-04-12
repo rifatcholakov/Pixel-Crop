@@ -20,7 +20,6 @@ export default function useImageDownload({ imageSrc, file, onError }: UseImageDo
             
             if (!cropResult || !cropResult.blob) {
                 onError("An error occurred generating the cropped image.");
-                setIsDownloading(false);
                 return;
             }
 

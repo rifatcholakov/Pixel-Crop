@@ -1,7 +1,7 @@
 import styles from './TruePixelControls.module.css';
 import CropInput from '../CropInput';
 
-type TruePixelControlsProps = {
+type CropMath = {
     aspect: number | undefined;
     getTrueWidth: () => number;
     getTrueHeight: () => number;
@@ -13,17 +13,24 @@ type TruePixelControlsProps = {
     handleYChange: (val: number) => void;
 };
 
-export default function TruePixelControls(props: TruePixelControlsProps) {
+type TruePixelControlsProps = {
+    cropMath: CropMath;
+};
+
+export default function TruePixelControls({ cropMath }: TruePixelControlsProps) {
+    const { aspect, getTrueWidth, getTrueHeight, getTrueX, getTrueY,
+        handleWidthChange, handleHeightChange, handleXChange, handleYChange } = cropMath;
+
     return (
         <div className={styles.container}>
             <div className={styles.sectionHeader}>
                 <span className={styles.sectionTitle}>Precision</span>
             </div>
             <div className={styles.controlsGrid}>
-                <CropInput label="W" value={props.getTrueWidth()} onChange={(e) => props.handleWidthChange(Number(e.target.value))} />
-                <CropInput label="H" value={props.getTrueHeight()} disabled={!!props.aspect} onChange={(e) => props.handleHeightChange(Number(e.target.value))} />
-                <CropInput label="X" value={props.getTrueX()} onChange={(e) => props.handleXChange(Number(e.target.value))} />
-                <CropInput label="Y" value={props.getTrueY()} onChange={(e) => props.handleYChange(Number(e.target.value))} />
+                <CropInput label="W" value={getTrueWidth()} onChange={(e) => handleWidthChange(Number(e.target.value))} />
+                <CropInput label="H" value={getTrueHeight()} disabled={!!aspect} onChange={(e) => handleHeightChange(Number(e.target.value))} />
+                <CropInput label="X" value={getTrueX()} onChange={(e) => handleXChange(Number(e.target.value))} />
+                <CropInput label="Y" value={getTrueY()} onChange={(e) => handleYChange(Number(e.target.value))} />
             </div>
         </div>
     );

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import ImageUploader from '../../components/ImageUploader';
 import ImageCropper from '../../components/ImageCropper';
-import { type Crop } from 'react-image-crop';
 import styles from '../../App.module.css';
 import Toast from '../../components/Toast';
 

@@ -2,28 +2,22 @@ import { useState, type RefObject } from "react";
 import { type Crop } from "react-image-crop";
 import { MIN_CROP_PIXELS } from "@/utils/constants";
 
+// Pure math helpers — no dependency on state, so they live at module scope
+const toTruePx = (percent: number, totalPx: number) => Math.round((percent / 100) * totalPx);
+const toPercent = (typedPx: number, totalPx: number) => (typedPx / totalPx) * 100;
+
 export default function useCropMath(imageRef: RefObject<HTMLImageElement | null>) {
     const [aspect, setAspect] = useState<number | undefined>(undefined);
     const [crop, setCrop] = useState<Crop>({ unit: "%", x: 0, y: 0, width: 100, height: 100 });
 
-    // ==========================================
-    // 1. REUSABLE MATH HELPERS
-    // ==========================================
-    const toTruePx = (percent: number, totalPx: number) => Math.round((percent / 100) * totalPx);
-    const toPercent = (typedPx: number, totalPx: number) => (typedPx / totalPx) * 100;
-
-    // ===============================================================
-    // 2. GETTERS: Translate internal percentages into display pixels
-    // ===============================================================
+    // Getters: translate internal percentages into display pixels
 
     const getTrueWidth = () => imageRef.current ? toTruePx(crop.width, imageRef.current.naturalWidth) : 0;
     const getTrueHeight = () => imageRef.current ? toTruePx(crop.height, imageRef.current.naturalHeight) : 0;
     const getTrueX = () => imageRef.current ? toTruePx(crop.x, imageRef.current.naturalWidth) : 0;
     const getTrueY = () => imageRef.current ? toTruePx(crop.y, imageRef.current.naturalHeight) : 0;
 
-    // ==============================================================
-    // 3. SETTERS: Translate user pixel inputs into safe percentages
-    // ==============================================================
+    // Setters: translate user pixel inputs into safe percentages
 
     const handleWidthChange = (val: number) => {
         if (!imageRef.current) return;

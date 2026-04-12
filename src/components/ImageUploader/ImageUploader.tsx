@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { SUPPORTED_MIME_TYPES } from "@/utils/constants";
 import type { ImageUploaderProps } from "@/types";
 import styles from "./ImageUploader.module.css";

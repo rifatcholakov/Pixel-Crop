@@ -2,16 +2,14 @@ import { type RefObject } from 'react';
 import styles from './MetadataPanel.module.css';
 
 type MetadataPanelProps = {
-    file: File | null;
+    file: File;
     imgRef: RefObject<HTMLImageElement | null>;
 };
 
 export default function MetadataPanel({ file, imgRef }: MetadataPanelProps) {
-    if (!file) return null;
-
     const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-    const width = imgRef.current?.naturalWidth || 0;
-    const height = imgRef.current?.naturalHeight || 0;
+    const width = imgRef.current?.naturalWidth ?? 0;
+    const height = imgRef.current?.naturalHeight ?? 0;
 
     return (
         <div className={styles.container}>
