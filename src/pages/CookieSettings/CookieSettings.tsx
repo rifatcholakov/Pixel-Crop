@@ -1,34 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from './CookieSettings.module.css';
-
-type CookieConsent = {
-  necessary: boolean;
-  functional: boolean;
-  analytics: boolean;
-};
+import { useCookieConsent } from '@/hooks/useCookieConsent';
 
 export default function CookieSettings() {
-  const [consent, setConsent] = useState<CookieConsent>({
-    necessary: true,
-    functional: false,
-    analytics: false,
-  });
-
-  useEffect(() => {
-    const saved = localStorage.getItem('cookie-consent');
-    if (saved) {
-      setConsent(JSON.parse(saved));
-    }
-  }, []);
+  const { consent, toggleCategory, updateConsent } = useCookieConsent();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSave = () => {
-    localStorage.setItem('cookie-consent', JSON.stringify(consent));
-    alert('Settings saved successfully!');
+    updateConsent(consent);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
   };
 
-  const toggle = (key: keyof CookieConsent) => {
-    if (key === 'necessary') return; // Cannot toggle necessary
-    setConsent(prev => ({ ...prev, [key]: !prev[key] }));
+  const toggle = (key: Parameters<typeof toggleCategory>[0]) => {
+    toggleCategory(key);
   };
 
   return (
@@ -83,6 +68,7 @@ export default function CookieSettings() {
       </div>
 
       <div className={styles.footer}>
+        {showSuccess && <div className={styles.successMsg}>Preferences saved successfully! ✨</div>}
         <button onClick={handleSave} className={styles.saveButton}>
           Save Preferences
         </button>

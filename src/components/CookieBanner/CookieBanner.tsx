@@ -1,29 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './CookieBanner.module.css';
+import { useCookieConsent } from '@/hooks/useCookieConsent';
 
 export default function CookieBanner() {
+  const { isFirstVisit, acceptAll, rejectAll } = useCookieConsent();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem('cookie-consent');
-    if (!consent) {
+    if (isFirstVisit) {
       const timer = setTimeout(() => setIsVisible(true), 1500);
       return () => clearTimeout(timer);
     }
-  }, []);
-
-  const handleAcceptAll = () => {
-    const consent = { necessary: true, functional: true, analytics: true };
-    localStorage.setItem('cookie-consent', JSON.stringify(consent));
-    setIsVisible(false);
-  };
-
-  const handleRejectAll = () => {
-    const consent = { necessary: true, functional: false, analytics: false };
-    localStorage.setItem('cookie-consent', JSON.stringify(consent));
-    setIsVisible(false);
-  };
+  }, [isFirstVisit]);
 
   if (!isVisible) return null;
 
@@ -45,10 +34,10 @@ export default function CookieBanner() {
           <Link to="/cookie-settings" className={styles.settingsLink} onClick={() => setIsVisible(false)}>
             Settings
           </Link>
-          <button onClick={handleRejectAll} className={styles.rejectButton}>
+          <button onClick={() => { rejectAll(); setIsVisible(false); }} className={styles.rejectButton}>
             Reject Non-Essential
           </button>
-          <button onClick={handleAcceptAll} className={styles.acceptButton}>
+          <button onClick={() => { acceptAll(); setIsVisible(false); }} className={styles.acceptButton}>
             Accept All
           </button>
         </div>

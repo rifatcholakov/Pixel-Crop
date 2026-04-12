@@ -5,11 +5,10 @@ import styles from './ImageCropper.module.css';
 
 import useCropMath from '@/hooks/useCropMath';
 import useImageDownload from '@/hooks/useImageDownload';
-import AspectControls from '../AspectControls';
-import TruePixelControls from '../TruePixelControls';
 import type { ImageCropperProps } from '@/types';
 import LivePreview from '../LivePreview';
-import MetadataPanel from '../MetadataPanel';
+import CropperTopBar from './subcomponents/CropperTopBar';
+import CropperDashboard from './subcomponents/CropperDashboard';
 
 export default function ImageCropper({
     imageSrc, file, onReset, onError
@@ -25,21 +24,13 @@ export default function ImageCropper({
 
     return (
         <div className={styles.studioLayout}>
-            {/* 1. TOP BAR: Aspect Selection + Toggles */}
-            <div className={styles.topBar}>
-                <div className={styles.topBarContent}>
-                    <AspectControls aspect={aspect} setAspect={setAspect} />
-                    <div className={styles.topBarDivider} />
-                    <button 
-                        className={`${styles.toggleBtn} ${showPreview ? styles.activeToggle : ''}`}
-                        onClick={() => setShowPreview(!showPreview)}
-                    >
-                        {showPreview ? 'Hide Preview' : 'Split Preview'}
-                    </button>
-                </div>
-            </div>
+            <CropperTopBar 
+                aspect={aspect} 
+                setAspect={setAspect} 
+                showPreview={showPreview} 
+                setShowPreview={setShowPreview} 
+            />
 
-            {/* 2. MAIN WORKSPACE: Symmetrical Flex Row */}
             <div className={styles.workspace}>
                 <div className={styles.splitRow}>
                     <div className={styles.editorPane}>
@@ -73,23 +64,15 @@ export default function ImageCropper({
                 </div>
             </div>
 
-            {/* 3. BOTTOM DASHBOARD: Controls + Info + Actions */}
-            <div className={styles.dashboard}>
-                <div className={styles.dashboardContent}>
-                    <TruePixelControls cropMath={cropMath} />
-                    
-                    <MetadataPanel file={file} imgRef={imgRef} />
-
-                    <div className={styles.actionSection}>
-                        <button onClick={onReset} className={styles.resetBtn}>
-                            Reset
-                        </button>
-                        <button onClick={() => downloadCrop(cropPixels)} className={styles.downloadBtn} disabled={isDownloading}>
-                            {isDownloading ? 'Processing...' : 'Download Result'}
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <CropperDashboard 
+                cropMath={cropMath}
+                file={file}
+                imgRef={imgRef}
+                onReset={onReset}
+                downloadCrop={downloadCrop}
+                cropPixels={cropPixels}
+                isDownloading={isDownloading}
+            />
         </div>
     );
 }

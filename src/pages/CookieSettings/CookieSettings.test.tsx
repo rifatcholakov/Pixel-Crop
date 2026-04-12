@@ -48,7 +48,7 @@ describe('CookieSettings', () => {
     expect(functionalToggle.className).not.toContain('active');
   });
 
-  it('saves preferences to localStorage', () => {
+  it('saves preferences to localStorage and shows success message', () => {
     render(<CookieSettings />);
     
     const functionalToggle = screen.getByLabelText('Toggle Functional Cookies');
@@ -60,6 +60,7 @@ describe('CookieSettings', () => {
     const saved = JSON.parse(localStorage.getItem('cookie-consent') || '{}');
     expect(saved.functional).toBe(true);
     expect(saved.analytics).toBe(false);
-    expect(window.alert).toHaveBeenCalledWith('Settings saved successfully!');
+    
+    expect(screen.getByText(/Preferences saved successfully/i)).toBeInTheDocument();
   });
 });
