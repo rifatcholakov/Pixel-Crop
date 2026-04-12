@@ -27,7 +27,7 @@ export default function Footer() {
       </div>
       
       <div className={styles.bottom}>
-        <p>&copy; {currentYear} PixelCrop Studio. All rights reserved.</p>
+        <p>&copy; {currentYear} PixelCrop. All rights reserved.</p>
         <p className={styles.tagline}>Crafted with precision.</p>
       </div>
     </footer>

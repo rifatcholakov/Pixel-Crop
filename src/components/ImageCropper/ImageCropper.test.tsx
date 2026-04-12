@@ -40,7 +40,7 @@ describe('ImageCropper', () => {
     const mockOnReset = vi.fn();
     const mockOnError = vi.fn();
 
-    it('renders the visual cropper and studio controls', () => {
+    it('renders the visual cropper and app controls', () => {
         render(
             <ImageCropper 
                 imageSrc="dummy-image.jpg" 
