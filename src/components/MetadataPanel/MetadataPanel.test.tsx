@@ -43,4 +43,9 @@ describe('MetadataPanel', () => {
         expect(screen.queryByText(/×/)).not.toBeInTheDocument();
     });
 
+    it('returns null if no file is provided', () => {
+        const dummyImgRef = { current: null };
+        const { container } = render(<MetadataPanel file={null} imgRef={dummyImgRef} />);
+        expect(container.innerHTML).toBe('');
+    });
 });

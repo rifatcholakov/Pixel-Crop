@@ -24,7 +24,7 @@ export default function Home() {
 
   const handleReset = () => {
     setFile(null);
-
+    setPreviewSrc(null);
     setError(null);
   };
 
