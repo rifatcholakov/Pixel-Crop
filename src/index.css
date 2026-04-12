@@ -24,7 +24,20 @@
 
   --header-height: 70px;
   --footer-height: 100px;
-  --layout-padding: 24px;
+  --layout-padding: 32px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 60px;
+    --layout-padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --layout-padding: 12px;
+  }
 }
 
 :root[data-theme='dark'] {

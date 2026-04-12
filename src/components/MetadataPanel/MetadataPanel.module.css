@@ -46,8 +46,22 @@
     max-width: 150px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1150px) {
+    .container {
+        padding: 0;
+    }
     .statsRow {
         gap: 1rem;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .statsRow {
+        gap: 0.75rem;
+    }
+    .statValue {
+        font-size: 0.8rem;
+        max-width: 120px;
     }
 }

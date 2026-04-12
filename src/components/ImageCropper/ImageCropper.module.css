@@ -9,12 +9,14 @@
 /* ──── TOP BAR (FLOATING DOCK) ─────────────────────────── */
 .topBar {
     height: 60px;
-    margin: 2.5rem 2.5rem 0 2.5rem;
-    border-radius: 99px; /* Full pill shape */
+    margin: 1.5rem auto 0 auto;
+    width: fit-content;
+    max-width: calc(100% - 2rem);
+    border-radius: 99px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
     background: var(--surface-hover);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -121,20 +123,20 @@
 
 /* ──── BOTTOM DASHBOARD (FLOATING DOCK) ─────────────────── */
 .dashboard {
-    height: 85px;
-    margin: 0 2.5rem 2.5rem 2.5rem;
+    min-height: 85px;
+    margin: 0 var(--layout-padding) var(--layout-padding) var(--layout-padding);
     border-radius: 24px;
     display: flex;
     align-items: center;
-    background: var(--surface-hover); /* Higher opacity */
+    background: var(--surface-hover);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border); /* Full border instead of just top */
-    padding: 0 2rem;
-    /* Powerful glow shadow lifting it off the surface */
+    border: 1px solid var(--glass-border);
+    padding: 1rem 2rem;
     box-shadow: 0 16px 50px var(--accent-glow), 0 4px 15px rgba(0,0,0,0.1);
     z-index: 40;
     position: relative;
+    transition: all 0.3s ease;
 }
 
 .dashboardContent {
@@ -142,6 +144,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1.5rem;
 }
 
 .actionSection {
@@ -188,31 +191,142 @@
     color: #ff5555;
 }
 
-@media (max-width: 1024px) {
+/* ──── RESPONSIVE OVERRIDES ────────────────────────────── */
+
+@media (max-width: 1150px) {
     .topBar {
-        margin: 1rem 1rem 0 1rem;
+        margin: 1rem auto 0 auto;
         height: auto;
-        padding: 0.5rem 1rem;
-        border-radius: 16px;
-    }
-    .workspace {
-        flex-direction: column;
-        overflow-y: auto;
-        margin: 1rem;
-    }
-    .splitRow {
-        flex-direction: column;
-        height: auto;
-    }
-    .previewPane {
-        position: static;
-        height: 400px;
+        padding: 0.6rem 1rem;
+        border-radius: 20px;
     }
     
-    .dashboard {
-        margin: 0 1rem 1rem 1rem;
+    .topBarContent {
+        gap: 0.8rem;
+    }
+
+    .workspace {
+        margin: 1rem var(--layout-padding);
+        overflow-y: auto;
+    }
+
+    .splitRow {
+        flex-direction: column;
+        align-items: center;
         height: auto;
-        padding: 1.5rem;
-        border-radius: 16px;
+        max-height: none;
+        gap: 2rem;
+    }
+
+    .editorPane, .previewPane {
+        width: 100%;
+        flex: none;
+        height: auto;
+        min-height: 300px;
+    }
+
+    .paneDivider {
+        width: 80%;
+        height: 1px;
+        margin: 0 auto;
+    }
+
+    /* SHEET-IFY DASHBOARD ON MOBILE */
+    .dashboard {
+        margin: 0;
+        width: 100%;
+        border-radius: 24px 24px 0 0;
+        padding: 1.5rem var(--layout-padding) calc(1.5rem + env(safe-area-inset-bottom)) var(--layout-padding);
+        position: sticky;
+        bottom: 0;
+        min-height: 0;
+    }
+
+    /* TABLET HYBRID LAYOUT */
+    .dashboardContent {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .actionSection {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .downloadBtn, .resetBtn {
+        width: auto;
+        flex: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboardContent {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .actionSection {
+        width: 100%;
+        gap: 0.8rem;
+    }
+
+    .downloadBtn {
+        flex: 2;
+    }
+
+    .resetBtn {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .topBar {
+        margin: 0.5rem auto 0 auto;
+        padding: 1rem;
+        height: auto;
+        width: 95%;
+        max-width: 420px;
+        border-radius: 24px;
+        display: block; /* Switch from flex for vertical stacking */
+    }
+
+    .topBarContent {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .topBarDivider {
+        display: none;
+    }
+
+    .topBarActions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .toggleBtn {
+        width: 100%;
+        padding: 0.75rem;
+    }
+
+    /* SHEET-IFY DASHBOARD */
+    .dashboard {
+        padding: 1rem var(--layout-padding) calc(1rem + env(safe-area-inset-bottom)) var(--layout-padding);
+    }
+}
+
+@media (max-width: 350px) {
+    .topBar {
+        padding: 0.75rem;
     }
 }

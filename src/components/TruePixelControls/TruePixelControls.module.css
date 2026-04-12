@@ -25,10 +25,34 @@
     gap: 0.75rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1150px) {
     .container {
         border-right: none;
-        border-bottom: 1px solid var(--glass-border);
-        padding-bottom: 1rem;
+        padding-right: 0;
+        width: fit-content; /* Group tightly instead of stretching */
+        max-width: 100%;
+    }
+    .controlsGrid {
+        grid-template-columns: repeat(4, auto); /* No more drift */
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .controlsGrid {
+        grid-template-columns: repeat(2, auto);
+        justify-content: start;
+    }
+}
+
+@media (max-width: 480px) {
+    .controlsGrid {
+        gap: 0.4rem;
     }
 }

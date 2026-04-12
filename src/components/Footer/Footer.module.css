@@ -85,6 +85,9 @@
 }
 
 @media (max-width: 768px) {
+  .footer {
+    padding: 2rem 1rem 1.5rem;
+  }
   .content {
     flex-direction: column;
     gap: 2rem;
@@ -97,5 +100,15 @@
   .bottom {
     flex-direction: column;
     gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .links {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .branding h3 {
+    font-size: 1.25rem;
   }
 }
