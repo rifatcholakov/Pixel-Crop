@@ -23,7 +23,7 @@ export default function ImageCropper({
     const { downloadCrop, isDownloading } = useImageDownload({ imageSrc, file, onError });
 
     return (
-        <div className={styles.studioLayout}>
+        <div className={styles.appLayout}>
             <CropperTopBar 
                 aspect={aspect} 
                 setAspect={setAspect} 

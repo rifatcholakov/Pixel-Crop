@@ -22,9 +22,9 @@
   --danger: #ef4444;
   --success: #10b981;
 
-  --studio-header-height: 70px;
-  --studio-footer-height: 100px;
-  --studio-padding: 24px;
+  --header-height: 70px;
+  --footer-height: 100px;
+  --layout-padding: 24px;
 }
 
 :root[data-theme='dark'] {
@@ -50,7 +50,7 @@
   --success: #34d399;
 }
 
-.studio-glass {
+.glass-panel {
   background: var(--surface);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -70,7 +70,7 @@ body {
   color: var(--text-main);
   background-color: var(--bg-color);
   
-  /* Pro Studio Grid Pattern */
+  /* Pro Logic Grid Pattern */
   background-image: 
     linear-gradient(to right, var(--grid-pattern) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-pattern) 1px, transparent 1px);

@@ -5,14 +5,14 @@
 </p>
 
 <p align="center">
-  <strong>The Professional-Grade Creative Studio for Precision Image Cropping.</strong>
+  <strong>The Professional-Grade Creative Engine for Precision Image Cropping.</strong>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-19.2-blue?logo=react" alt="React" />
   <img src="https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Vite-8.0-indigo?logo=vite" alt="Vite" />
-  <img src="https://img.shields.io/badge/Tests-88%2B%20Passed-emerald?logo=vitest" alt="Tests" />
+  <img src="https://img.shields.io/badge/Tests-89%2B%20Passed-emerald?logo=vitest" alt="Tests" />
   <img src="https://img.shields.io/badge/License-MIT-gray" alt="License" />
 </p>
 
@@ -20,7 +20,7 @@
 
 ## 🌟 Overview
 
-**PixelCrop** is a high-fidelity image cropping workbench designed for developers, designers, and creators who demand precision. Built from the ground up with a focus on core engineering principles, it transforms a simple UI task into a robust, laboratory-grade creative studio.
+**PixelCrop** is a high-fidelity image cropping workbench designed for developers, designers, and creators who demand precision. Built from the ground up with a focus on core engineering principles, it transforms a simple UI task into a robust, laboratory-grade creative experience.
 
 Whether you're prepping assets for a high-end design project or needing a reliable tool for your professional workflow, PixelCrop provides the accuracy of a desktop application with the accessibility of a modern web app.
 
@@ -32,7 +32,7 @@ Go beyond dragging handles. Our **Precision Inspector** allows you to manipulate
 ### 🖥️ Real-Time Symmetrical Preview
 See exactly what you'll get. The **Split Preview** workspace renders your crop in real-time on a separate high-performance canvas, ensuring zero surprises during export.
 
-### 🌓 Svelte & adaptive UI
+### 🌓 Svelte & Adaptive UI
 Experience a premium **Glassmorphic interface** that adapts to your environment. PixelCrop supports full light/dark mode transitions and synchronizes automatically with your system's OS preferences.
 
 ### 🛡️ Privacy by Design
@@ -52,20 +52,20 @@ graph TD
     C -- No --> D[ImageUploader]
     C -- Yes --> E[ImageCropper]
     
-    subgraph UI Decomposition
+    subgraph "UI Decomposition"
         E --> F[CropperTopBar]
         E --> G[Visual Workspace]
         E --> H[CropperDashboard]
     end
     
-    subgraph Logic Engines (Hooks)
+    subgraph "Logic Engines (Hooks)"
         E -.-> I[useCropMath]
         E -.-> J[useImageDownload]
         A -.-> K[useTheme]
         A -.-> L[useCookieConsent]
     end
     
-    subgraph Core Utilities
+    subgraph "Core Utilities"
         I --> M[canvasPreview]
         J --> N[cropImage Utils]
     end
@@ -74,7 +74,7 @@ graph TD
 ### Technical Design Patterns
 - **React 19 Composition**: Utilizing the latest React features for efficient rendering and state management.
 - **Hook-Based Extraction**: All business logic (Math, Downloads, Privacy) is promoted to unit-testable custom hooks.
-- **CSS Modules**: Scoped, maintainable styling that remains clean even as the studio layout scales.
+- **CSS Modules**: Scoped, maintainable styling that remains clean even as the layout scales.
 - **Hardware Acceleration**: Leveraging the HTML5 Canvas API for high-resolution image transformations.
 
 ---
@@ -123,7 +123,7 @@ npm install
 | Command | Description |
 |---|---|
 | `npm run dev` | Launch the Vite development server with HMR. |
-| `npm run test` | Execute the full **88+ Vitest suite**. |
+| `npm run test` | Execute the full **89+ Vitest suite**. |
 | `npm run build` | Compile TypeScript and generate production bundle. |
 | `npm run lint` | Perform a static analysis check with ESLint. |
 | `npm run preview` | Locally preview the production build. |
@@ -140,16 +140,47 @@ Quality is not an afterthought. PixelCrop is covered by a comprehensive test sui
 
 ---
 
-## 📬 Support & Roadmap
+## 🔒 Institutional Privacy Commitment
 
-### Future Work
-- [ ] Multi-format export (WebP, AVIF support).
-- [ ] Non-destructive filters and color grading.
-- [ ] Bulk image processing.
+Unlike traditional image editing tools, PixelCrop is built on a **Zero-Server Architecture**. 
+
+- **Local Processing**: All canvas operations and image transformations are performed within your browser's V8 engine.
+- **No Data Persistence**: Images are stored in volatile memory (RAM) and are cleared the moment the browser tab is closed or a reset is triggered.
+- **Analytics Transparency**: Standard technical telemetry (if enabled in Cookie Settings) never includes image data or personal identifiers.
+
+## 🌐 Browser Support
+
+PixelCrop utilizes modern web standards including the **HTML5 Canvas API**, **CSS Variables**, and **ES Modules**.
+
+| Browser | Supported Version |
+|---|---|
+| Chrome/Edge | 90+ |
+| Firefox | 88+ |
+| Safari | 14+ |
+| Mobile Browsers | iOS 14.5+ / Android Chrome 90+ |
+
+## 🛠️ Troubleshooting
+
+### Image Load Failures
+- Ensure the image is a valid format (JPEG, PNG, WebP).
+- Check browser console for CORS errors if using remote URLs (PixelCrop is optimized for local file uploads).
+
+### Performance Lag
+- For images above 8K resolution, performance may vary based on your system's GPU acceleration. 
+- Ensure "Hardware Acceleration" is enabled in your browser settings.
+
+## 🤝 Contributing & Support
+
+We welcome contributions from the community! Whether you're fixing a bug or suggesting a feature:
+
+1. **Fork** the repository.
+2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`).
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`).
+4. **Push** to the branch (`git push origin feature/AmazingFeature`).
+5. **Open** a Pull Request.
 
 ### Contact
-Built with ❤️ by **Rifat Cholakov**. For support or inquiries, touch base at:
-**[contact@rifatcholakov.com](mailto:contact@rifatcholakov.com)**
+Built with ❤️ by **Rifat Cholakov**.
 
 ---
 

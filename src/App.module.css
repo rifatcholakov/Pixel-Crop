@@ -14,8 +14,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: var(--studio-header-height);
-  padding: 0 var(--studio-padding);
+  height: var(--header-height);
+  padding: 0 var(--layout-padding);
   background: var(--surface);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -49,7 +49,7 @@
 }
 
 .divider {
-  display: none; /* Removed in Studio layout */
+  display: none; /* Removed in modern layout */
 }
 
 /* ── Utility Buttons ─────────────────────────────────────── */
