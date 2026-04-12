@@ -32,8 +32,11 @@ Go beyond dragging handles. Our **Precision Inspector** allows you to manipulate
 ### 🖥️ Real-Time Symmetrical Preview
 See exactly what you'll get. The **Split Preview** workspace renders your crop in real-time on a separate high-performance canvas, ensuring zero surprises during export.
 
-### 🌓 Svelte & Adaptive UI
-Experience a premium **Glassmorphic interface** that adapts to your environment. PixelCrop supports full light/dark mode transitions and synchronizes automatically with your system's OS preferences.
+### 📱 Adaptive Responsive Architecture
+PixelCrop isn't just "mobile-friendly"—it's mobile-first. 
+- **Vertical Command Stack**: On ultra-mobile devices (<480px), controls shift to a 100% visible, one-per-row vertical layout.
+- **Tablet Hybrid Mode**: A specialized Row-Wrap architecture for 768px–1180px viewports that balances density and ergonomics.
+- **Extreme 300px Support**: Fully optimized for ultra-narrow devices like the iPhone SE, with zero-clipping guarantees.
 
 ### 🛡️ Privacy by Design
 Your images never leave your machine. PixelCrop is a **100% client-side tool**. Image processing happens strictly in the browser memory, providing institutional-grade privacy and security.
@@ -157,7 +160,7 @@ PixelCrop utilizes modern web standards including the **HTML5 Canvas API**, **CS
 | Chrome/Edge | 90+ |
 | Firefox | 88+ |
 | Safari | 14+ |
-| Mobile Browsers | iOS 14.5+ / Android Chrome 90+ |
+| Mobile Browsers | iOS 14.5+ / Android Chrome 90+ (Optimized down to 300px) |
 
 ## 🛠️ Troubleshooting
 
