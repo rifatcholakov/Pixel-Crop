@@ -1,28 +1,30 @@
-import { type Crop } from 'react-image-crop';
 import styles from './AspectControls.module.css';
 
 type AspectControlsProps = {
     aspect: number | undefined;
     setAspect: (aspect: number | undefined) => void;
-    setCrop: (crop: Crop) => void;
 };
 
-export default function AspectControls({ aspect, setAspect, setCrop }: AspectControlsProps) {
+export default function AspectControls({ aspect, setAspect }: AspectControlsProps) {
+    const ratios = [
+        { label: 'Free', value: undefined },
+        { label: '1:1', value: 1 },
+        { label: '16:9', value: 16 / 9 },
+        { label: '4:3', value: 4 / 3 },
+        { label: '2:3', value: 2 / 3 },
+    ];
+
     return (
         <div className={styles.container}>
-            <span>Aspect Ratios:</span>
-            <button className={`${styles.button} ${aspect === 1 ? styles.active : ''}`} onClick={() => setAspect(1)}>Square 1:1</button>
-            <button className={`${styles.button} ${aspect === 16 / 9 ? styles.active : ''}`} onClick={() => setAspect(16 / 9)}>16:9 Landscape</button>
-            <button className={`${styles.button} ${aspect === undefined ? styles.active : ''}`} onClick={() => setAspect(undefined)}>Freeform</button>
-            <button
-                onClick={() => {
-                    setAspect(undefined);
-                    setCrop({ unit: '%', x: 0, y: 0, width: 100, height: 100 });
-                }}
-                className={`${styles.button} ${styles.resetButton}`}
-            >
-                Reset Crop
-            </button>
+            {ratios.map((r) => (
+                <button
+                    key={r.label}
+                    className={`${styles.button} ${aspect === r.value ? styles.active : ''}`}
+                    onClick={() => setAspect(r.value)}
+                >
+                    {r.label}
+                </button>
+            ))}
         </div>
     );
 }

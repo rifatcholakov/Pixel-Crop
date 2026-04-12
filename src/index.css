@@ -2,40 +2,59 @@
 
 :root {
   /* ================== LIGHT THEME ================== */
-  --bg-color: #f1f5f9;
-  --bg-mesh-1: rgba(199, 210, 254, 0.5); /* Pastel Indigo */
-  --bg-mesh-2: rgba(253, 230, 138, 0.4); /* Pastel Amber */
-  --surface: rgba(255, 255, 255, 0.7);
-  --surface-hover: rgba(255, 255, 255, 0.9);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  --bg-color: #f8fafc;
+  --bg-mesh-1: rgba(199, 210, 254, 0.4);
+  --bg-mesh-2: rgba(253, 230, 138, 0.3);
+  
+  --surface: rgba(255, 255, 255, 0.65);
+  --surface-hover: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  --glass-blur: blur(12px);
 
-  --text-main: #1e293b;
+  --text-main: #0f172a;
   --text-muted: #64748b;
   
   --accent: #4f46e5;
-  --accent-glow: rgba(79, 70, 229, 0.3);
+  --accent-glow: rgba(79, 70, 229, 0.2);
   --accent-hover: #4338ca;
   --danger: #ef4444;
+  --success: #10b981;
+
+  --studio-header-height: 70px;
+  --studio-footer-height: 100px;
+  --studio-padding: 24px;
 }
 
 :root[data-theme='dark'] {
   /* ================== DARK THEME ================== */
-  --bg-color: #0b0f19;
-  --bg-mesh-1: rgba(30, 27, 75, 0.7); /* Deep Purple */
-  --bg-mesh-2: rgba(6, 95, 70, 0.5);  /* Deep Emerald */
-  --surface: rgba(30, 41, 59, 0.4);
-  --surface-hover: rgba(30, 41, 59, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.06);
-  --glass-shadow: 0 4px 40px rgba(0, 0, 0, 0.2);
+  --bg-color: #020617;
+  --bg-mesh-1: rgba(30, 27, 75, 0.8);
+  --bg-mesh-2: rgba(2, 44, 34, 0.6);
+  
+  --surface: rgba(15, 23, 42, 0.5);
+  --surface-hover: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  --glass-blur: blur(20px);
 
-  --text-main: #f8fafc;
+  --text-main: #f1f5f9;
   --text-muted: #94a3b8;
   
-  --accent: #0ea5e9;
-  --accent-glow: rgba(14, 165, 233, 0.4);
-  --accent-hover: #38bdf8;
+  --accent: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.3);
+  --accent-hover: #818cf8;
   --danger: #f87171;
+  --success: #34d399;
+}
+
+.studio-glass {
+  background: var(--surface);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 12px;
 }
 
 /* ================== GLOBAL STYLES ================== */
@@ -100,9 +119,8 @@ button {
 
 /* Base App Wrapper */
 #root {
-  width: 1200px;
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

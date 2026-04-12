@@ -14,7 +14,12 @@ vi.mock('../../components/ImageUploader', () => ({
 }));
 
 vi.mock('../../components/ImageCropper', () => ({
-  default: () => <div data-testid="image-cropper">Image Cropper</div>
+  default: ({ onReset }: { onReset: () => void }) => (
+    <div data-testid="image-cropper">
+      Image Cropper
+      <button onClick={onReset}>Reset</button>
+    </div>
+  )
 }));
 
 describe('Home Page', () => {
@@ -47,7 +52,7 @@ describe('Home Page', () => {
     fireEvent.click(screen.getByText('Upload Mock'));
     expect(await screen.findByTestId('image-cropper')).toBeDefined();
     
-    const resetBtn = screen.getByText('✕ Start Over');
+    const resetBtn = screen.getByText('Reset');
     fireEvent.click(resetBtn);
     
     expect(screen.getByTestId('image-uploader')).toBeDefined();

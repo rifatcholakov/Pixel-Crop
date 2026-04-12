@@ -9,4 +9,6 @@ export interface ImageCropperProps {
     imageSrc: string;
     file: File;
     onCropPixelsChange: (crop: Crop) => void;
+    onReset: () => void;
+    onError: (error: string) => void;
 }

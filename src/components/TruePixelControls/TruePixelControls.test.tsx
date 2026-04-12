@@ -3,7 +3,6 @@ import { describe, it, expect, vi } from 'vitest';
 import TruePixelControls from './TruePixelControls';
 
 describe('TruePixelControls', () => {
-    // Reusable mock props to keep our tests clean
     const mockProps = {
         aspect: undefined,
         getTrueWidth: () => 100,
@@ -16,25 +15,25 @@ describe('TruePixelControls', () => {
         handleYChange: vi.fn(),
     };
 
-    it('renders all four input fields', () => {
+    it('renders all four input fields with compact labels', () => {
         render(<TruePixelControls {...mockProps} />);
-        expect(screen.getByLabelText(/Width/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/Height/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/X position/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/Y position/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/^W$/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/^H$/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/^X$/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/^Y$/i)).toBeInTheDocument();
     });
 
     it('disables the height input when an aspect ratio is locked', () => {
-        render(<TruePixelControls {...mockProps} aspect={1} />); // Force aspect ratio to 1
+        render(<TruePixelControls {...mockProps} aspect={1} />); 
 
-        const heightInput = screen.getByLabelText(/Height/i);
+        const heightInput = screen.getByLabelText(/^H$/i);
         expect(heightInput).toBeDisabled();
     });
 
     it('calls the appropriate handler when input values change', () => {
         render(<TruePixelControls {...mockProps} />);
 
-        const widthInput = screen.getByLabelText(/Width/i);
+        const widthInput = screen.getByLabelText(/^W$/i);
         fireEvent.change(widthInput, { target: { value: '200' } });
 
         expect(mockProps.handleWidthChange).toHaveBeenCalledWith(200);

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import LivePreview from './LivePreview';
 
-// Mock the canvas engine because our testing environment has no Graphics Card!
+// Mock the canvas engine
 vi.mock('@/utils/canvasPreview', () => ({
     canvasPreview: vi.fn(),
 }));
@@ -14,14 +14,13 @@ describe('LivePreview', () => {
         vi.clearAllMocks();
     });
 
-    it('renders the canvas element', () => {
-        // Create a fake DOM Image reference
+    it('renders the canvas element and badge', () => {
         const dummyRef = { current: document.createElement('img') };
         const dummyCrop = { unit: '%', x: 0, y: 0, width: 50, height: 50 } as any;
 
         const { container } = render(<LivePreview imgRef={dummyRef} crop={dummyCrop} />);
 
-        expect(screen.getByText(/Live Preview/i)).toBeInTheDocument();
+        expect(screen.getByText(/Live Result/i)).toBeInTheDocument();
         expect(container.querySelector('canvas')).toBeInTheDocument();
     });
 
@@ -31,7 +30,6 @@ describe('LivePreview', () => {
 
         render(<LivePreview imgRef={dummyRef} crop={dummyCrop} />);
 
-        // We successfully prove that our component tried to draw the image!
         expect(canvasPreview).toHaveBeenCalledTimes(1);
     });
 });

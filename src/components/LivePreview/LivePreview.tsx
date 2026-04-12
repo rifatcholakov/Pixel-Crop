@@ -18,9 +18,9 @@ export default function LivePreview({ imgRef, crop }: LivePreviewProps) {
     }, [crop, imgRef]);
 
     return (
-        <div className={styles.container}>
-            <h3>Live Preview</h3>
+        <div className={styles.previewWrapper} data-testid="live-preview-wrapper">
             <canvas ref={canvasRef} className={styles.previewCanvas} />
+            <div className={styles.badge}>Live Result</div>
         </div>
     );
 }

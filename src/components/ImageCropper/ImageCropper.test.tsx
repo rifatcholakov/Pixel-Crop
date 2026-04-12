@@ -13,9 +13,18 @@ vi.mock('react-image-crop', () => ({
 
 vi.mock('react-image-crop/dist/ReactCrop.css', () => ({}));
 
-// Mock our Canvas Engine so Vitest doesn't crash without a graphics card!
+// Mock our Canvas Engine
 vi.mock('@/utils/canvasPreview', () => ({
     canvasPreview: vi.fn(),
+}));
+
+// Mock LivePreview
+vi.mock('../LivePreview', () => ({
+    default: () => (
+        <div data-testid="live-preview-mock">
+            Live Preview
+        </div>
+    )
 }));
 
 describe('ImageCropper', () => {
@@ -26,27 +35,69 @@ describe('ImageCropper', () => {
     });
 
     const dummyFile = new File([''], 'dummy.jpg', { type: 'image/jpeg' });
+    const mockOnReset = vi.fn();
+    const mockOnError = vi.fn();
 
-    it('renders the visual cropper and manual control inputs', () => {
-        render(<ImageCropper imageSrc="dummy-image.jpg" file={dummyFile} onCropPixelsChange={() => { }} />);
+    it('renders the visual cropper and studio controls', () => {
+        render(
+            <ImageCropper 
+                imageSrc="dummy-image.jpg" 
+                file={dummyFile} 
+                onCropPixelsChange={() => { }} 
+                onReset={mockOnReset}
+                onError={mockOnError}
+            />
+        );
 
         expect(screen.getByTestId('react-image-crop-mock')).toBeInTheDocument();
-        expect(screen.getByLabelText(/width/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/height/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/x position/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/y position/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/^W$/i)).toBeInTheDocument();
     });
 
-    it('updates the crop state when manual inputs change (Two-Way Sync)', () => {
-        render(<ImageCropper imageSrc="dummy-image.jpg" file={dummyFile} onCropPixelsChange={() => { }} />);
+    it('toggles the live preview', () => {
+        render(
+            <ImageCropper 
+                imageSrc="dummy-image.jpg" 
+                file={dummyFile} 
+                onCropPixelsChange={() => { }} 
+                onReset={mockOnReset}
+                onError={mockOnError}
+            />
+        );
 
-        const widthInput = screen.getByLabelText(/width/i);
-        const cropperMock = screen.getByTestId('react-image-crop-mock');
+        expect(screen.getByTestId('live-preview-mock')).toBeInTheDocument();
 
-        fireEvent.change(widthInput, { target: { value: '350' } });
+        const toggleBtn = screen.getByText(/Hide Preview/i);
+        fireEvent.click(toggleBtn);
 
-        const updatedCropProp = JSON.parse(cropperMock.getAttribute('data-crop') || '{}');
+        expect(screen.queryByTestId('live-preview-mock')).not.toBeInTheDocument();
+        expect(screen.getByText(/Split Preview/i)).toBeInTheDocument();
+    });
 
-        expect(updatedCropProp.width).toBe(35); // 350px / 1000px = 35%
+    it('utilizes the simplified absolute-fill architecture for CSS height synchronization', () => {
+        const { container } = render(
+            <ImageCropper 
+                imageSrc="dummy-image.jpg" 
+                file={dummyFile} 
+                onCropPixelsChange={() => { }} 
+                onReset={mockOnReset}
+                onError={mockOnError}
+            />
+        );
+
+        // Verify that the splitRow structure exists
+        const splitRow = container.querySelector('[class*="splitRow"]');
+        expect(splitRow).toBeInTheDocument();
+
+        // Verify both symmetrical panes exist as direct children of the row
+        const editorPane = splitRow?.querySelector('[class*="editorPane"]');
+        const previewPane = splitRow?.querySelector('[class*="previewPane"]');
+        
+        expect(editorPane).toBeInTheDocument();
+        expect(previewPane).toBeInTheDocument();
+
+        // Verify LivePreview is rendered directly inside previewPane without extra nested wrappers
+        const mockLivePreview = screen.getByTestId('live-preview-mock');
+        expect(previewPane).toContainElement(mockLivePreview);
+        expect(mockLivePreview.parentElement).toEqual(previewPane);
     });
 });

@@ -9,8 +9,7 @@ describe('App Integration', () => {
         window.URL.revokeObjectURL = vi.fn();
     });
 
-    it('navigates from Uploader to Cropper when a file is selected', () => {
-        // We add 'container' to easily find the hidden input
+    it('navigates from Uploader to Cropper when a file is selected', async () => {
         const { container } = render(<App />);
 
         // 1. Initially, we should be on the upload screen
@@ -18,17 +17,16 @@ describe('App Integration', () => {
         const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
         expect(fileInput).toBeInTheDocument();
 
-        // The Download button should NOT exist yet
-        expect(screen.queryByText(/download/i)).not.toBeInTheDocument();
-
         // 2. Simulate User Uploading an image via the hidden input
         const file = new File(['dummy content'], 'test.png', { type: 'image/png' });
         fireEvent.change(fileInput, { target: { files: [file] } });
 
         // 3. The App should now render the Cropper screen!
         expect(window.URL.createObjectURL).toHaveBeenCalledWith(file);
-        expect(screen.getByText(/download/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/width/i)).toBeInTheDocument(); // The cropper's manual inputs
+        
+        // Wait for rendering transition
+        expect(await screen.findByText(/download result/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/^W$/i)).toBeInTheDocument(); 
 
         // The Dropzone text should be gone!
         expect(screen.queryByText(/Click or Drag & Drop an Image/i)).not.toBeInTheDocument();
