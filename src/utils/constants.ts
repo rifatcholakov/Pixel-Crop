@@ -11,5 +11,5 @@ export const SUPPORTED_MIME_TYPES = [
     'image/avif',
 ];
 
-export const MIN_CROP_PIXELS = 10;
+export const MIN_CROP_PIXELS = 0;
 export const TOAST_DURATION_MS = 5000;

@@ -30,6 +30,8 @@ describe('getCroppedImg', () => {
         // Mock Image constructor because jsdom doesn't load image sources
         window.Image = class {
             onload: any;
+            naturalWidth = 1000;
+            naturalHeight = 1000;
             constructor() {
                 setTimeout(() => { if (this.onload) this.onload(); }, 10);
             }
@@ -58,6 +60,16 @@ describe('getCroppedImg', () => {
 
         expect(mockToBlob.mock.calls[0][1]).toBe('image/jpeg');
         expect(result?.blob?.type).toBe('image/jpeg');
+    });
+
+    it('prevents toBlob crashes by clamping minimum crop dimensions to 1px', async () => {
+        // Attempt to create a 0x0 mathematically from user input
+        const crop = { unit: '%' as const, x: 0, y: 0, width: 0, height: 0 };
+        const result = await getCroppedImg('dummy.jpg', crop, 'image/jpeg');
+
+        // The returned dimensions should be clamped to 1 safely
+        expect(result?.width).toBe(1);
+        expect(result?.height).toBe(1);
     });
 });
 

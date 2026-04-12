@@ -31,8 +31,8 @@ export async function getCroppedImg(
 
     const x = Math.round((percentCrop.x / 100) * image.naturalWidth);
     const y = Math.round((percentCrop.y / 100) * image.naturalHeight);
-    const w = Math.round((percentCrop.width / 100) * image.naturalWidth);
-    const h = Math.round((percentCrop.height / 100) * image.naturalHeight);
+    const w = Math.max(1, Math.round((percentCrop.width / 100) * image.naturalWidth));
+    const h = Math.max(1, Math.round((percentCrop.height / 100) * image.naturalHeight));
 
     canvas.width = w;
     canvas.height = h;

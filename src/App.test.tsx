@@ -13,7 +13,7 @@ describe('App Integration', () => {
         const { container } = render(<App />);
 
         // 1. Initially, we should be on the upload screen
-        expect(screen.getByText(/Click or Drag & Drop an Image/i)).toBeInTheDocument();
+        expect(screen.getByText(/Drag & Drop an image to begin/i)).toBeInTheDocument();
         const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
         expect(fileInput).toBeInTheDocument();
 

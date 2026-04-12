@@ -7,7 +7,7 @@ describe('ImageUploader', () => {
         const { container } = render(<ImageUploader onImageUpload={vi.fn()} onError={vi.fn()} />);
 
         // Find our beautiful new UI text
-        expect(screen.getByText(/Click or Drag & Drop an Image/i)).toBeInTheDocument();
+        expect(screen.getByText(/Drag & Drop an image to begin/i)).toBeInTheDocument();
 
         // Verify the hidden input still exists under the hood (for click fallback!)
         const fileInput = container.querySelector('input[type="file"]');
@@ -34,14 +34,14 @@ describe('ImageUploader', () => {
         render(<ImageUploader onImageUpload={mockOnImageUpload} onError={vi.fn()} />);
 
         // Since we didn't add a data-testid, we grab the DropZone via the text inside it!
-        const dropZone = screen.getByText(/Click or Drag & Drop an Image/i).parentElement?.parentElement as HTMLElement;
+        const dropZone = screen.getByText(/Drag & Drop an image to begin/i).parentElement?.parentElement as HTMLElement;
         const file = new File(['dummy content'], 'test.webp', { type: 'image/webp' });
 
         // 1. Simulate the user hovering a file over it
         fireEvent.dragOver(dropZone);
 
         // 2. Verify the text dynamically updated!
-        expect(screen.getByText(/Drop your image here!/i)).toBeInTheDocument();
+        expect(screen.getByText(/Drop your masterpiece here!/i)).toBeInTheDocument();
 
         // 3. Simulate letting go of the mouse button
         fireEvent.drop(dropZone, { dataTransfer: { files: [file] } });
@@ -55,7 +55,7 @@ describe('ImageUploader', () => {
         const mockOnError = vi.fn();
         render(<ImageUploader onImageUpload={mockOnImageUpload} onError={mockOnError} />);
 
-        const dropZone = screen.getByText(/Click or Drag & Drop an Image/i).parentElement?.parentElement as HTMLElement;
+        const dropZone = screen.getByText(/Drag & Drop an image to begin/i).parentElement?.parentElement as HTMLElement;
         const failFile = new File(['dummy psd'], 'image.psd', { type: 'image/vnd.adobe.photoshop' });
 
         fireEvent.drop(dropZone, { dataTransfer: { files: [failFile] } });

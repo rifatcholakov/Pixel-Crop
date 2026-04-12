@@ -54,4 +54,15 @@ describe('useCropMath', () => {
         // The math should detect it's out of bounds and clamp it strictly to 100%
         expect(result.current.crop.width).toBe(100);
     });
+
+    it('clamps user input so negative dimensions are coerced to 0 pixels', () => {
+        const { result } = renderHook(() => useCropMath(mockImgRef));
+
+        act(() => {
+            result.current.handleWidthChange(-50);
+        });
+
+        // Due to MIN_CROP_PIXELS = 0 and Math.max(0, val), width safely bottoms out at 0%
+        expect(result.current.crop.width).toBe(0);
+    });
 });
