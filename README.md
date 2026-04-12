@@ -16,6 +16,13 @@
   <img src="https://img.shields.io/badge/License-MIT-gray" alt="License" />
 </p>
 
+<p align="center">
+  <a href="https://pixel-crop.vercel.app/">
+    <img src="https://img.shields.io/badge/Live%20Demo-Visit%20App-7c3aed?style=for-the-badge&logo=vercel" alt="Live Demo" />
+  </a>
+</p>
+
+
 ---
 
 ## 🌟 Overview
