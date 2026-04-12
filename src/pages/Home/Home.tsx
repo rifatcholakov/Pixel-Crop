@@ -8,7 +8,7 @@ import Toast from '../../components/Toast';
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
-  const [cropPixels, setCropPixels] = useState<Crop | null>(null);
+
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function Home() {
 
   const handleReset = () => {
     setFile(null);
-    setCropPixels(null);
+
     setError(null);
   };
 
@@ -48,7 +48,7 @@ export default function Home() {
           <ImageCropper
             imageSrc={previewSrc}
             file={file!}
-            onCropPixelsChange={(pixels) => setCropPixels(pixels)}
+
             onReset={handleReset}
             onError={(errMsg) => setError(errMsg)}
           />

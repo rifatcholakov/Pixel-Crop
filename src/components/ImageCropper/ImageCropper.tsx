@@ -12,7 +12,7 @@ import LivePreview from '../LivePreview';
 import MetadataPanel from '../MetadataPanel';
 
 export default function ImageCropper({
-    imageSrc, file, onCropPixelsChange, onReset, onError
+    imageSrc, file, onReset, onError
 }: ImageCropperProps) {
     const imgRef = useRef<HTMLImageElement>(null);
     const [cropPixels, setLocalCropPixels] = useState<Crop | null>(null);
@@ -72,7 +72,6 @@ export default function ImageCropper({
                             aspect={aspect}
                             onChange={(_, percentCrop) => setCrop(percentCrop)}
                             onComplete={(_, percentCrop) => {
-                                onCropPixelsChange(percentCrop);
                                 setLocalCropPixels(percentCrop);
                             }}
                             className={styles.cropper}
