@@ -4,7 +4,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 import styles from './ImageCropper.module.css';
 
 import useCropMath from '@/hooks/useCropMath';
-import { getCroppedImg, generateDownloadName } from '@/utils/cropImage';
+import useImageDownload from '@/hooks/useImageDownload';
 import AspectControls from '../AspectControls';
 import TruePixelControls from '../TruePixelControls';
 import type { ImageCropperProps } from '@/types';
@@ -24,28 +24,9 @@ export default function ImageCropper({
         handleWidthChange, handleHeightChange, handleXChange, handleYChange
     } = useCropMath(imgRef);
 
-    const handleDownload = async () => {
-        if (!file || !imageSrc || !cropPixels) return;
+    const { downloadCrop, isDownloading } = useImageDownload({ imageSrc, file, onError });
 
-        try {
-            const cropResult = await getCroppedImg(imageSrc, cropPixels, file.type);
-            if (!cropResult || !cropResult.blob) {
-                onError("An error occurred generating the cropped image.");
-                return;
-            }
-
-            const { blob: croppedBlob, width, height } = cropResult;
-            const url = URL.createObjectURL(croppedBlob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = generateDownloadName(file.name, width, height);
-            a.click();
-            URL.revokeObjectURL(url);
-        } catch (err) {
-            console.error(err);
-            onError("Failed to crop the image.");
-        }
-    };
+    const handleDownload = () => downloadCrop(cropPixels);
 
     return (
         <div className={styles.studioLayout}>
@@ -118,8 +99,8 @@ export default function ImageCropper({
                         <button onClick={onReset} className={styles.resetBtn}>
                             Reset
                         </button>
-                        <button onClick={handleDownload} className={styles.downloadBtn}>
-                            Download Result
+                        <button onClick={handleDownload} className={styles.downloadBtn} disabled={isDownloading}>
+                            {isDownloading ? 'Processing...' : 'Download Result'}
                         </button>
                     </div>
                 </div>

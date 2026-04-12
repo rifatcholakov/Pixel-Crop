@@ -65,4 +65,53 @@ describe('useCropMath', () => {
         // Due to MIN_CROP_PIXELS = 0 and Math.max(0, val), width safely bottoms out at 0%
         expect(result.current.crop.width).toBe(0);
     });
+
+    it('translates user pixel input into percentages for height (handleHeightChange)', () => {
+        const { result } = renderHook(() => useCropMath(mockImgRef));
+
+        act(() => {
+            result.current.handleHeightChange(500);
+        });
+
+        expect(result.current.crop.height).toBe(50);
+    });
+
+    it('translates user pixel input into percentages for X coordinate (handleXChange)', () => {
+        const { result } = renderHook(() => useCropMath(mockImgRef));
+
+        // Shrink width first (separate act so state commits before X uses it)
+        act(() => { result.current.handleWidthChange(500); });
+        // Now maxLimit = 100 - 50 = 50, so x=100px (10%) is valid
+        act(() => { result.current.handleXChange(100); });
+
+        expect(result.current.crop.x).toBe(10);
+    });
+
+    it('translates user pixel input into percentages for Y coordinate (handleYChange)', () => {
+        const { result } = renderHook(() => useCropMath(mockImgRef));
+
+        // Shrink height first (separate act so state commits before Y uses it)
+        act(() => { result.current.handleHeightChange(600); });
+        // Now maxLimit = 100 - 60 = 40, so y=200px (20%) is valid
+        act(() => { result.current.handleYChange(200); });
+
+        expect(result.current.crop.y).toBe(20);
+    });
+
+    it('updates height automatically when aspect ratio is locked and width changes', () => {
+        const { result } = renderHook(() => useCropMath(mockImgRef));
+
+        // Lock aspect to 16:9
+        act(() => {
+            result.current.setAspect(16 / 9);
+        });
+
+        // Change width to 160px
+        act(() => {
+            result.current.handleWidthChange(160);
+        });
+
+        // Height should automatically become 90px (9%)
+        expect(result.current.crop.height).toBe(9);
+    });
 });

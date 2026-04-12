@@ -6,6 +6,8 @@ import ImageCropper from './ImageCropper';
 vi.mock('react-image-crop', () => ({
     default: (props: any) => (
         <div data-testid="react-image-crop-mock" data-crop={JSON.stringify(props.crop)}>
+            <button data-testid="crop-change-btn" onClick={() => props.onChange({}, { unit: '%', x: 10, y: 10, width: 80, height: 80 })}>Change</button>
+            <button data-testid="crop-complete-btn" onClick={() => props.onComplete({}, { unit: '%', x: 10, y: 10, width: 80, height: 80 })}>Complete</button>
             {props.children}
         </div>
     )
@@ -43,7 +45,6 @@ describe('ImageCropper', () => {
             <ImageCropper 
                 imageSrc="dummy-image.jpg" 
                 file={dummyFile} 
-                onCropPixelsChange={() => { }} 
                 onReset={mockOnReset}
                 onError={mockOnError}
             />
@@ -58,7 +59,6 @@ describe('ImageCropper', () => {
             <ImageCropper 
                 imageSrc="dummy-image.jpg" 
                 file={dummyFile} 
-                onCropPixelsChange={() => { }} 
                 onReset={mockOnReset}
                 onError={mockOnError}
             />
@@ -78,7 +78,6 @@ describe('ImageCropper', () => {
             <ImageCropper 
                 imageSrc="dummy-image.jpg" 
                 file={dummyFile} 
-                onCropPixelsChange={() => { }} 
                 onReset={mockOnReset}
                 onError={mockOnError}
             />
@@ -99,5 +98,25 @@ describe('ImageCropper', () => {
         const mockLivePreview = screen.getByTestId('live-preview-mock');
         expect(previewPane).toContainElement(mockLivePreview);
         expect(mockLivePreview.parentElement).toEqual(previewPane);
+    });
+
+    it('triggers internal state updates when ReactCrop executes onChange and onComplete callbacks', () => {
+        render(
+            <ImageCropper 
+                imageSrc="dummy-image.jpg" 
+                file={dummyFile} 
+                onReset={mockOnReset}
+                onError={mockOnError}
+            />
+        );
+
+        const changeBtn = screen.getByTestId('crop-change-btn');
+        const completeBtn = screen.getByTestId('crop-complete-btn');
+
+        fireEvent.click(changeBtn);
+        fireEvent.click(completeBtn);
+
+        // State update triggers re-render, we assert it doesn't crash component rendering flow
+        expect(screen.getByTestId('react-image-crop-mock')).toBeInTheDocument();
     });
 });

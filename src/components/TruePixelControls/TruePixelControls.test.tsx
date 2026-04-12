@@ -35,7 +35,18 @@ describe('TruePixelControls', () => {
 
         const widthInput = screen.getByLabelText(/^W$/i);
         fireEvent.change(widthInput, { target: { value: '200' } });
-
         expect(mockProps.handleWidthChange).toHaveBeenCalledWith(200);
+
+        const heightInput = screen.getByLabelText(/^H$/i);
+        fireEvent.change(heightInput, { target: { value: '300' } });
+        expect(mockProps.handleHeightChange).toHaveBeenCalledWith(300);
+
+        const xInput = screen.getByLabelText(/^X$/i);
+        fireEvent.change(xInput, { target: { value: '50' } });
+        expect(mockProps.handleXChange).toHaveBeenCalledWith(50);
+
+        const yInput = screen.getByLabelText(/^Y$/i);
+        fireEvent.change(yInput, { target: { value: '75' } });
+        expect(mockProps.handleYChange).toHaveBeenCalledWith(75);
     });
 });

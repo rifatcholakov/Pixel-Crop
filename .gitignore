@@ -7,10 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build output
 dist
 dist-ssr
+
+# Local env files
 *.local
+
+# Coverage (generated)
+coverage
+*.lcov
+.nyc_output
 
 # Editor directories and files
 .vscode/*

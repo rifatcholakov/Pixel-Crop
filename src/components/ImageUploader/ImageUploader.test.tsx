@@ -64,4 +64,28 @@ describe('ImageUploader', () => {
         expect(mockOnError).toHaveBeenCalledTimes(1);
         expect(mockOnError).toHaveBeenCalledWith(expect.stringMatching(/unsupported/i));
     });
+
+    it('resets dragging state on drag leave', () => {
+        render(<ImageUploader onImageUpload={vi.fn()} onError={vi.fn()} />);
+
+        const dropZone = screen.getByText(/Drag & Drop an image to begin/i).parentElement?.parentElement as HTMLElement;
+        
+        fireEvent.dragOver(dropZone);
+        expect(screen.getByText(/Drop your masterpiece here!/i)).toBeInTheDocument();
+
+        fireEvent.dragLeave(dropZone);
+        expect(screen.getByText(/Drag & Drop an image to begin/i)).toBeInTheDocument();
+    });
+
+    it('ignores drops that contain no files gracefully', () => {
+        const mockOnImageUpload = vi.fn();
+        render(<ImageUploader onImageUpload={mockOnImageUpload} onError={vi.fn()} />);
+
+        const dropZone = screen.getByText(/Drag & Drop an image to begin/i).parentElement?.parentElement as HTMLElement;
+
+        // Drop event missing the file array completely
+        fireEvent.drop(dropZone, { dataTransfer: { files: [] } });
+
+        expect(mockOnImageUpload).not.toHaveBeenCalled();
+    });
 });
