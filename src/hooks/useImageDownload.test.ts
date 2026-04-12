@@ -6,8 +6,8 @@ import * as cropImageModule from '@/utils/cropImage';
 // Mock the URL API (unavailable in jsdom)
 const mockCreateObjectURL = vi.fn(() => 'blob:mock-url');
 const mockRevokeObjectURL = vi.fn();
-global.URL.createObjectURL = mockCreateObjectURL;
-global.URL.revokeObjectURL = mockRevokeObjectURL;
+window.URL.createObjectURL = mockCreateObjectURL;
+window.URL.revokeObjectURL = mockRevokeObjectURL;
 
 // Mock document.createElement to intercept link clicks
 const mockClick = vi.fn();
